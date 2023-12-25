@@ -1,0 +1,48 @@
+---
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: &name pgo-cluster
+  namespace: postgres-operator
+spec:
+  postgresVersion: 16
+  instances:
+    - name: instance
+      replicas: 3
+      dataVolumeClaimSpec:
+        storageClassName: mayastor-nvmf
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 2Gi
+      walVolumeClaimSpec:
+        storageClassName: mayastor-nvmf
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
+  users:
+    - name: authelia
+      databases:
+        - authelia
+  backups:
+    pgbackrest:
+      global:
+        repo1-retention-full: "14"
+        repo1-retention-full-type: time
+        archive-push-queue-max: 4GiB
+      repos:
+        - name: repo1
+          schedules:
+            full: 0 1 * * 0
+            incremental: 0 1 * * 1-6
+          volume:
+            volumeClaimSpec:
+              accessModes:
+                - ReadWriteMany
+              resources:
+                requests:
+                  storage: 5Gi
+              storageClassName: smb

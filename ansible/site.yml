@@ -1,0 +1,4 @@
+# site.yml is the main entry point for Ansible execution.
+---
+- import_playbook: playbooks/proxmox.yml
+- import_playbook: playbooks/docker.yml

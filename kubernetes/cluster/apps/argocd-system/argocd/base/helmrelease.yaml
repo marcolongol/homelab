@@ -1,0 +1,47 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app flamingo
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: argocd
+  releaseName: argocd
+  chart:
+    spec:
+      chart: argo-cd
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: argo
+        namespace: flux-system
+      interval: 10m
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    global:
+      domain: &host flamingo.${SECRET_DOMAIN}
+      image:
+        repository: ghcr.io/flux-subsystem-argo/fsa/argocd
+        tag: v2.8.11-fl.21-main-894df19a
+    configs:
+      params:
+        server.insecure: true
+    server:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8
+        extraTls:
+          - hosts:
+              - *host
+            secretName: ingress-nginx-tls

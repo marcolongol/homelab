@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/kustomization.json
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./cilium.yaml
+  - ./mayastor.yaml
+  - ./csi-driver-smb.yaml
+  - ./argo.yaml
+  - ./jetstack.yaml
+  - ./godaddy-webhook.yaml
+  - ./ingress-nginx.yaml
+  - ./bjw-s-charts.yaml
+  - ./kubelet-csr-approver.yaml
+  - ./metrics-server.yaml
+  - ./kubernetes-dashboard.yaml
+  - ./emberstack.yaml
+  - ./crunchydata-charts.yaml

@@ -1,0 +1,19 @@
+# code: language=ansible
+---
+# -----------------------------------------
+# SECTION: `docker` wrapper role variables
+# -----------------------------------------
+
+docker_users:
+  - "lucas"
+  - "ansible"
+  - "docker"
+  - "root"
+
+docker_apps:
+  - nexus
+
+# geerlingguy.docker role variables
+# -----------------------------------------
+docker_install_compose: true
+docker_compose_version: "v2.25.0"

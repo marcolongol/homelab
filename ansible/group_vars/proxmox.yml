@@ -1,0 +1,238 @@
+# code: language=ansible
+---
+# -----------------------------------------
+# SECTION: `common` wrapper role variables
+# -----------------------------------------
+fail2ban_services:
+  - name: sshd
+  - name: proxmox
+
+# -----------------------------------------
+# SECTION: `proxmox` wrapper role variables
+# -----------------------------------------
+
+proxmox_manage_images: true
+proxmox_images_urls:
+  regular:
+    - name: "OPNsense-24.1-dvd-amd64.iso.bz2"
+      url: "https://mirror.sfo12.us.leaseweb.net/opnsense/releases/24.1/OPNsense-24.1-dvd-amd64.iso.bz2"
+    - name: "alpine-virt-3.19.1-x86_64.iso"
+      url: "https://dl-cdn.alpinelinux.org/alpine/v3.19/releases/x86_64/alpine-virt-3.19.1-x86_64.iso"
+    - name: "Fedora-Workstation-Live-x86_64-39-1.5.iso"
+      url: "https://download.fedoraproject.org/pub/fedora/linux/releases/39/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-39-1.5.iso"
+    - name: "talos-linux-amd64.iso"
+      url: "https://github.com/siderolabs/talos/releases/download/v1.5.6/metal-amd64.iso"
+  cloud_init:
+    - name: "ubuntu-22.04-server-cloudimg-amd64.img"
+      url: "https://cloud-images.ubuntu.com/releases/jammy/release/ubuntu-22.04-server-cloudimg-amd64.img"
+    - name: "ubuntu-18.04-server-cloudimg-amd64.img"
+      url: "https://cloud-images.ubuntu.com/releases/bionic/release/ubuntu-18.04-server-cloudimg-amd64.img"
+
+proxmox_manage_vms: true
+proxmox_vms:
+  - name: "opnsense"
+    vmid: 100
+    node: "proxmox"
+    onboot: true
+    agent: true
+    cores: 4
+    cpu: "host"
+    memory: 8192
+    net:
+      net0: "virtio,bridge=vmbr0" # WAN
+      net1: "virtio,bridge=vmbr1" # LAN
+    ide:
+      ide2: "isos:iso/OPNsense-24.1-dvd-amd64.iso,media=cdrom"
+    virtio:
+      virtio0: "local:50,format=qcow2,discard=on"
+    tags:
+      - "firewall"
+
+  - name: "docker"
+    vmid: 101
+    node: "proxmox"
+    onboot: true
+    agent: true
+    cores: 8
+    memory: 16384
+    bios: ovmf
+    cpu: "host"
+    machine: q35
+    ostype: l26
+    serial:
+      serial0: "socket"
+    vga: "serial0"
+    net:
+      net0: "virtio=CE:E0:0C:77:40:01,bridge=vmbr1"
+    ipconfig:
+      ipconfig0: "ip=dhcp"
+    efidisk0:
+      storage: "local"
+      format: "qcow2"
+      efitype: "4m"
+      pre_enrolled_keys: true
+    cipassword: "031294MarcO"
+    ciuser: "lucas"
+    ide:
+      ide2: "local:cloudinit,format=qcow2"
+    scsihw: "virtio-scsi-pci"
+    virtio:
+      virtio0: "local:0,import-from={{ proxmox_images_dir }}/ubuntu-22.04-server-cloudimg-amd64.img,discard=on,format=qcow2"
+    boot: "order=virtio0"
+    tags:
+      - "docker"
+      - "ubuntu"
+      - "ci"
+
+  - name: "talos01"
+    vmid: 102
+    node: "proxmox"
+    onboot: true
+    agent: true
+    bios: ovmf
+    cpu: "host"
+    cores: 8
+    memory: 16384
+    net:
+      net0: "virtio=0E:C1:0A:C2:73:CB,bridge=vmbr1"
+    ide:
+      ide2: "isos:iso/talos-linux-amd64.iso,media=cdrom"
+    virtio:
+      virtio0: "local:50,format=qcow2,discard=on"
+      virtio1: "local:500,format=qcow2,discard=on"
+    tags:
+      - "k8s"
+
+  - name: "talos02"
+    vmid: 103
+    node: "proxmox"
+    onboot: true
+    agent: true
+    bios: ovmf
+    cpu: "host"
+    cores: 8
+    memory: 16384
+    net:
+      net0: "virtio=92:23:44:AB:76:23,bridge=vmbr1"
+    ide:
+      ide2: "isos:iso/talos-linux-amd64.iso,media=cdrom"
+    virtio:
+      virtio0: "local:50,format=qcow2,discard=on"
+      virtio1: "local:500,format=qcow2,discard=on"
+    tags:
+      - "k8s"
+
+  - name: "talos03"
+    vmid: 104
+    node: "proxmox"
+    onboot: true
+    agent: true
+    bios: ovmf
+    cpu: "host"
+    cores: 8
+    memory: 16384
+    net:
+      net0: "virtio=5A:28:57:05:F1:E5,bridge=vmbr1"
+    ide:
+      ide2: "isos:iso/talos-linux-amd64.iso,media=cdrom"
+    virtio:
+      virtio0: "local:50,format=qcow2,discard=on"
+      virtio1: "local:500,format=qcow2,discard=on"
+    tags:
+      - "k8s"
+
+  - name: "talos04"
+    vmid: 105
+    node: "proxmox"
+    onboot: true
+    agent: true
+    bios: ovmf
+    cpu: "host"
+    cores: 8
+    memory: 16384
+    net:
+      net0: "virtio=A2:7B:28:1A:D2:1B,bridge=vmbr1"
+    ide:
+      ide2: "isos:iso/talos-linux-amd64.iso,media=cdrom"
+    virtio:
+      virtio0: "local:50,format=qcow2,discard=on"
+    tags:
+      - "k8s"
+
+  - name: "talos05"
+    vmid: 106
+    node: "proxmox"
+    onboot: true
+    agent: true
+    bios: ovmf
+    cpu: "host"
+    cores: 8
+    memory: 16384
+    net:
+      net0: "virtio=92:90:42:4C:97:39,bridge=vmbr1"
+    ide:
+      ide2: "isos:iso/talos-linux-amd64.iso,media=cdrom"
+    virtio:
+      virtio0: "local:50,format=qcow2,discard=on"
+    tags:
+      - "k8s"
+
+  - name: "talos06"
+    vmid: 107
+    node: "proxmox"
+    onboot: true
+    agent: true
+    bios: ovmf
+    cpu: "host"
+    cores: 8
+    memory: 16384
+    net:
+      net0: "virtio=36:6A:17:C5:3F:B9,bridge=vmbr1"
+    ide:
+      ide2: "isos:iso/talos-linux-amd64.iso,media=cdrom"
+    virtio:
+      virtio0: "local:50,format=qcow2,discard=on"
+    tags:
+      - "k8s"
+
+proxmox_manage_networking: true
+
+# lae.proxmox role
+# ----------------------
+pve_cluster_enabled: true
+pve_manage_ssh: false
+pve_group: "proxmox"
+pve_api_host: "{{ inventory_hostname }}"
+pve_watchdog: ipmi
+
+pve_storages:
+  - name: local
+    type: dir
+    path: /var/lib/vz
+    content: images,rootdir
+  - name: isos
+    type: dir
+    path: /isos
+    content: iso
+  - name: backup
+    type: dir
+    path: /mnt/proxmox-backup
+    content: vztmpl,snippets,backup
+
+pve_users:
+  - name: "{{ pve_group }}@pam"
+    email: "{{ pve_group }}@{{ ansible_domain }}"
+    firstname: "{{ pve_group }}"
+    lastname: "Proxmox VE"
+    groups:
+      - "{{ pve_group }}"
+
+pve_groups:
+  - name: "{{ pve_group }}"
+    comment: Proxmox VE Administrators
+
+pve_acls:
+  - path: /
+    roles: ["Administrator"]
+    groups:
+      - "{{ pve_group }}"

@@ -1,0 +1,27 @@
+version: "3"
+services:
+  nexus:
+    image: "sonatype/nexus3"
+    container_name: nexus
+    restart: unless-stopped
+    security_opt:
+      - "no-new-privileges:true"
+    volumes:
+      - "nexus-data:/nexus-data"
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.nexus-secure.entrypoints=websecure
+      - traefik.http.routers.nexus-secure.rule=Host(`nexus.${DOMAIN}`)
+      - traefik.http.routers.nexus-secure.service=nexus
+      - traefik.http.services.nexus.loadbalancer.server.port=8081
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
+
+volumes:
+  nexus-data:
+    driver: local
