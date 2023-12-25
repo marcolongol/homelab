@@ -1,0 +1,25 @@
+# ansible requirements.yml
+---
+roles:
+  - src: Oefenweb.apt
+    version: v3.1.0
+  - src: singleplatform-eng.users
+    version: v1.2.6
+  - src: geerlingguy.ntp
+    version: 2.3.3
+  - src: dev-sec.ssh-hardening
+    version: 9.7.0
+  - src: Oefenweb.fail2ban
+    version: v4.0.8
+  - src: lae.proxmox
+    version: v1.7.1
+  - src: geerlingguy.docker
+    version: 7.1.0
+
+collections:
+  - name: community.general
+    version: 8.4.0
+  - name: community.docker
+    version: 3.8.0
+  - name: community.sops
+    version: 1.6.7

@@ -1,0 +1,98 @@
+---
+clusterName: talos-cluster
+talosVersion: v1.6.4
+kubernetesVersion: v1.29.2
+endpoint: https://10.0.0.200:6443
+allowSchedulingOnMasters: true
+cniConfig:
+  name: none
+
+patches:
+  - |-
+    machine:
+      kubelet:
+        extraConfig:
+          serverTLSBootstrap: true
+        extraMounts:
+          - destination: /var/local
+            type: bind
+            source: /var/local
+            options:
+              - rbind
+              - rshared
+              - rw
+
+nodes:
+  - hostname: talos01
+    ipAddress: "10.0.0.3"
+    controlPlane: true
+    installDisk: /dev/vda
+
+  - hostname: talos02
+    ipAddress: "10.0.0.4"
+    controlPlane: true
+    installDisk: /dev/vda
+
+  - hostname: talos03
+    ipAddress: "10.0.0.5"
+    controlPlane: true
+    installDisk: /dev/vda
+
+  - hostname: talos04
+    ipAddress: "10.0.0.6"
+    controlPlane: false
+    installDisk: /dev/vda
+
+  - hostname: talos05
+    ipAddress: "10.0.0.7"
+    controlPlane: false
+    installDisk: /dev/vda
+
+  - hostname: talos06
+    ipAddress: "10.0.0.8"
+    controlPlane: false
+    installDisk: /dev/vda
+
+controlPlane:
+  networkInterfaces:
+    - interface: eth0
+      dhcp: true
+      routes:
+        - network: 0.0.0.0/0
+          gateway: 10.0.0.1
+        - network: ::/0
+          gateway: 2a01:4f9:3051:4763:dead::beef
+      vip:
+        ip: 10.0.0.200
+  schematic:
+    customization:
+      extraKernelArgs:
+        - net.ifnames=0
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/qemu-guest-agent
+  patches:
+    - |-
+      - op: add
+        path: /machine/sysctls
+        value:
+          vm.nr_hugepages: 1024
+  nodeLabels:
+    openebs.io/engine: mayastor
+
+worker:
+  networkInterfaces:
+    - interface: eth0
+      dhcp: true
+      routes:
+        - network: 0.0.0.0/0
+          gateway: 10.0.0.1
+        - network: ::/0
+          gateway: 2a01:4f9:3051:4763:dead::beef
+  schematic:
+    customization:
+      extraKernelArgs:
+        - net.ifnames=0
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/qemu-guest-agent

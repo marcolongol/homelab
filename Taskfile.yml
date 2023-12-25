@@ -1,0 +1,9 @@
+version: "3"
+tasks:
+  test:
+    cmds:
+      - task: test-manifests
+
+  test-manifests:
+    cmds:
+      - pwsh -Command "Invoke-Pester -Path ./tests -Output Detailed"

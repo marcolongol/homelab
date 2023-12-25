@@ -1,0 +1,38 @@
+# {{ ansible_managed }}
+source /etc/network/interfaces.d/*
+
+auto lo
+iface lo inet loopback
+
+iface lo inet6 loopback
+
+auto enp41s0
+iface enp41s0 inet static
+        address {{ hetzner_ipv4_address | default(lookup('dig', ansible_fqdn, qtype='A')) }}
+        gateway {{ hetzner_ipv4_gateway  }}
+        post-up iptables -t nat -A PREROUTING -i enp41s0 -p tcp -m multiport ! --dport 22,8006 -j DNAT --to {{ firewall_wan_ipv4_address }}
+        post-up iptables -t nat -A PREROUTING -i enp41s0 -p udp -j DNAT --to {{ firewall_wan_ipv4_address }}
+        post-up sysctl -w net.ipv6.conf.all.forwarding=1
+        post-up sysctl -w net.ipv4.ip_forward=1
+
+iface enp41s0 inet6 static
+        address {{ hetzner_ipv6_address | default(lookup('dig', ansible_fqdn, qtype='AAAA')) }}
+        gateway {{ hetzner_ipv6_gateway }}
+
+auto vmbr0
+iface vmbr0 inet static
+        ovs_type OVSBridge
+        address {{ host_wan_ipv4_address }}/31
+        post-up iptables -t nat -A POSTROUTING -s '{{ firewall_wan_ipv4_address }}/31' -o enp41s0 -j MASQUERADE
+        post-down iptables -t nat -D POSTROUTING -s '{{ firewall_wan_ipv4_address }}/31' -o enp41s0 -j MASQUERADE
+
+iface vmbr0 inet6 static
+        address {{ host_wan_ipv6_address }}/127
+        up ip route add {{ hetzner_ipv6_subnet }} via {{ firewall_wan_ipv6_address }}
+        up ip route add {{ lan_ipv4_network }} via {{ firewall_wan_ipv4_address}}
+#WAN
+
+auto vmbr1
+iface vmbr1 inet static
+        ovs_type OVSBridge
+#LAN

@@ -1,0 +1,11 @@
+creation_rules:
+  - encrypted_regex: "^(data|stringData|caBundle)$"
+    path_regex: 'kubernetes[\\\\/]cluster[\\\\/].*\.sops\.ya?ml$'
+    age: >-
+      age19r6wen3fypsw5ykk0dj2e2hc0tyw2zlux6mw33c57pfg5jd9mg9sgjp3za
+  - path_regex: 'kubernetes[\\\\/]talos[\\\\/].*\.sops\.ya?ml$'
+    age: >-
+      age19r6wen3fypsw5ykk0dj2e2hc0tyw2zlux6mw33c57pfg5jd9mg9sgjp3za
+  - path_regex: '.*\.sops\.ya?ml$'
+    age: >-
+      age19r6wen3fypsw5ykk0dj2e2hc0tyw2zlux6mw33c57pfg5jd9mg9sgjp3za

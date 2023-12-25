@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: godaddy-api-key
+  namespace: networking-system
+data:
+  token: ENC[AES256_GCM,data:xpLwHqOF3i6YnkhN4IUHMgXFqDRdU96qVO2wIy1cYdMYXra0chDTQNZHGuWIIs5A65hC8ewpK+R5+S8JivXpPliEsHkRuEYSDeIJ4S95hyg=,iv:bBt1dXPxZtPzEq6uy2lvuJ2vWNLnqH2iO2ZghCNG50o=,tag:1A9Mi6wI71Aj7JfSmrt3iQ==,type:str]
+type: Opaque
+sops:
+  kms: []
+  gcp_kms: []
+  azure_kv: []
+  hc_vault: []
+  age:
+    - recipient: age19r6wen3fypsw5ykk0dj2e2hc0tyw2zlux6mw33c57pfg5jd9mg9sgjp3za
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyZ0kvVkdOZ1ZZOVlnelho
+        UE9iSHNSNUU2OGtBMjJxYSsva2h5Z0ZjOG1JCmRvc01nL3FFZ3JPNXVrNWQ4NSt5
+        RDlja0g5bmE5VVRLQVJWS2c5WjRtNkkKLS0tIFhsYm9IcWNkM0hxNlR4MzFjcUpZ
+        RTJQSElpd3MvSDBueGdUeHhXMGZCRGMK8oiBYzdHFDxmgy7CBfOOc0QLwAuvCR6Q
+        mDFtsKv3TTtEbUxw/ixsPeQV+NEBityKcFowiqxDxmnDf7uSKXP+3Q==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2024-03-21T21:33:28Z"
+  mac: ENC[AES256_GCM,data:0sy0bQ8tfTCIBVQxIFcSKr0SkfYj8qHHliAvA+iKx/HsdmI440j7gssSL1P2WELd8YsC7pGxGesnXeqBjV3aZ2plmsntSQJmu0CZgzDth1naTPNtHgmF8Nf1Mc1nIePUZoS1ALGkHhtf84KWE0gwtUdOv9z/yZI5dIH5Vz7XQ6Q=,iv:aaJhB4AEfK63ng/wmR7QeBNr5QeDA8OGAaxWgv9eHyM=,tag:vj2fL2M+EqkHXDxAHsXjYw==,type:str]
+  pgp: []
+  encrypted_regex: ^(data|stringData|caBundle)$
+  version: 3.8.1

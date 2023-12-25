@@ -1,0 +1,6 @@
+# code: language=ansible
+---
+- hosts: proxmox
+  roles:
+    - common
+    - proxmox
