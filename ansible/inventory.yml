@@ -1,0 +1,7 @@
+# Ansible inventory file
+---
+proxmox:
+  hosts: proxmox.marcolongo.cloud
+
+docker:
+  hosts: docker.marcolongo.cloud

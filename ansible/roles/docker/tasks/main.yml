@@ -1,0 +1,71 @@
+# code: language=ansible
+---
+- name: Include distribution-specific variables
+  ansible.builtin.include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - "default.yml"
+
+- name: Include Wrapped Roles
+  loop: "{{ docker_roles_to_include }}"
+  loop_control:
+    loop_var: role
+  ansible.builtin.include_role:
+    name: "{{ role }}"
+
+- name: Copy core directory
+  ansible.builtin.copy:
+    src: "core"
+    dest: "/opt/docker"
+    mode: "0600"
+
+- name: Copy apps directory
+  ansible.builtin.copy:
+    src: "apps"
+    dest: "/opt/docker"
+    mode: "0600"
+
+- name: Touch acme.json file
+  ansible.builtin.file:
+    path: "/opt/docker/core/traefik-data/acme.json"
+    state: touch
+    mode: "0600"
+  changed_when: false
+
+- name: Create docker network
+  community.docker.docker_network:
+    name: "traefik"
+    state: present
+
+- name: Create core docker .env file
+  when: docker_env is defined and docker_env | length > 0
+  ansible.builtin.copy:
+    content: |
+      {% for (key, value) in docker_env.items() %}
+      {{ key }}={{ value }}
+      {% endfor %}
+    dest: "/opt/docker/core/.env"
+    mode: "0600"
+
+- name: Deploy core docker-compose.yml
+  community.docker.docker_compose_v2:
+    project_src: "/opt/docker/core"
+    state: present
+
+- name: Create apps docker .env file
+  when: docker_env is defined and docker_env | length > 0
+  ansible.builtin.copy:
+    content: |
+      {% for (key, value) in docker_env.items() %}
+      {{ key }}={{ value }}
+      {% endfor %}
+    dest: "/opt/docker/apps/{{ item }}/.env"
+    mode: "0600"
+  loop: "{{ docker_apps }}"
+
+- name: Deploy apps docker-compose.yml
+  community.docker.docker_compose_v2:
+    project_src: "/opt/docker/apps/{{ item }}"
+    state: present
+  loop: "{{ docker_apps }}"

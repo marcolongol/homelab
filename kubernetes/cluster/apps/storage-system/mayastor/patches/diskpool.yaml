@@ -1,0 +1,27 @@
+---
+apiVersion: "openebs.io/v1beta1"
+kind: DiskPool
+metadata:
+  name: talos01-pool
+  namespace: storage-system
+spec:
+  node: talos01
+  disks: ["/dev/vdb"]
+---
+apiVersion: "openebs.io/v1beta1"
+kind: DiskPool
+metadata:
+  name: talos02-pool
+  namespace: storage-system
+spec:
+  node: talos02
+  disks: ["/dev/vdb"]
+---
+apiVersion: "openebs.io/v1beta1"
+kind: DiskPool
+metadata:
+  name: talos03-pool
+  namespace: storage-system
+spec:
+  node: talos03
+  disks: ["/dev/vdb"]

@@ -1,0 +1,14 @@
+# code: language=ansible
+---
+common_roles_to_include:
+  - singleplatform-eng.users
+  - dev-sec.ssh-hardening
+  - Oefenweb.apt
+  - geerlingguy.ntp
+  - Oefenweb.fail2ban
+
+common_root_group: "root"
+
+common_sudoers_file: "/etc/sudoers.d/90-ansible"
+
+common_smb_shares: []

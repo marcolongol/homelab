@@ -1,0 +1,11 @@
+# code: language=ansible
+---
+docker_roles_to_include:
+  - geerlingguy.docker
+
+docker_env:
+  GODADDY_API_KEY: "<godaddy_api_key>"
+  GODADDY_API_SECRET: "<godaddy_api_secret>"
+  DOMAIN: "<domain>"
+
+docker_apps: []

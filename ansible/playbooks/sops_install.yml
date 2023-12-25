@@ -1,0 +1,18 @@
+---
+- name: Install sops on localhost
+  gather_facts: false
+  hosts: localhost
+  tasks:
+    - name: Install sops on localhost
+      ansible.builtin.include_role:
+        name: community.sops.install
+      vars:
+        sops_install_on_localhost: true
+
+- name: Install sops on remote hosts
+  gather_facts: true
+  hosts: all
+  tasks:
+    - name: Install sops on remote hosts
+      ansible.builtin.include_role:
+        name: community.sops.install
