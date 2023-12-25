@@ -1,0 +1,70 @@
+# code: language=ansible
+---
+- name: Include distribution-specific variables
+  ansible.builtin.include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - "default.yml"
+
+- name: Include Wrapped Roles
+  loop: "{{ common_roles_to_include }}"
+  loop_control:
+    loop_var: role
+  when: common_roles_to_include is defined and common_roles_to_include | default([]) | intersect([role]) | length > 0
+  ansible.builtin.include_role:
+    name: "{{ role }}"
+
+- name: Add users to sudoers.d
+  when: users is defined and users | length > 0
+  ansible.builtin.copy:
+    content: |
+      {% for user in users %}
+      {{ user.username }} ALL=(ALL) NOPASSWD: ALL
+      {% endfor %}
+    dest: "{{ common_sudoers_file }}"
+    owner: root
+    group: "{{ common_root_group }}"
+    mode: "0440"
+
+- name: Copy SSH banner file
+  when: ssh_banner is defined and ssh_banner
+  ansible.builtin.copy:
+    src: "banner.txt"
+    dest: "/etc/ssh/banner.txt"
+    owner: root
+    group: "{{ common_root_group }}"
+    mode: "0644"
+
+- name: MOTD
+  when: ssh_print_motd is defined and ssh_print_motd
+  block:
+    - name: Get MOTD
+      ansible.builtin.uri:
+        url: "https://v2.jokeapi.dev/joke/Any?type=single"
+        return_content: true
+      changed_when: false
+      register: joke_response
+
+    - name: Copy MOTD template
+      ansible.builtin.template:
+        src: "motd.j2"
+        dest: "/etc/motd"
+        owner: root
+        group: "{{ common_root_group }}"
+        mode: "0644"
+      vars:
+        motd: "{{ joke_response.json.joke }}"
+      changed_when: false
+
+- name: Mount SMB shares
+  when: common_smb_shares is defined and common_smb_shares | length > 0
+  loop: "{{ common_smb_shares }}"
+  loop_control:
+    loop_var: smb_share
+  ansible.posix.mount:
+    src: "{{ smb_share.src_path }}"
+    path: "{{ smb_share.mount_path }}"
+    fstype: cifs
+    opts: "rw,vers=3,username={{ smb_share.credentials.username }},password={{ smb_share.credentials.password }},file_mode=0775,dir_mode=0775"
+    state: mounted

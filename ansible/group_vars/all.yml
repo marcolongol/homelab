@@ -1,0 +1,88 @@
+# code: language=ansible
+---
+# ----------------------------------------
+# SECTION: Ansible variables
+# ----------------------------------------
+ansible_ssh_user: root
+ansible_ssh_private_key_file: /home/marcolongol/.ssh/id_rsa
+
+# ----------------------------------------
+# SECTION: `common` wrapper role variable overrides
+# ----------------------------------------
+
+# dev-sec.ssh-hardening role variables
+# ----------------------------------------
+network_ipv6_enable: true
+ssh_permit_tunnel: true
+ssh_allow_tcp_forwarding: "yes"
+ssh_permit_root_login: "without-password"
+ssh_print_last_log: true
+ssh_print_motd: true
+ssh_banner: true
+sftp_enabled: true
+
+ssh_kex_80_default:
+  - curve25519-sha256@libssh.org
+  - diffie-hellman-group-exchange-sha256
+
+# geerlingguy.ntp role variables
+# ----------------------------------------
+ntp_manage_config: true
+
+ntp_timezone: "America/Los_Angeles"
+
+ntp_area: "north-america"
+
+# Oefenweb.apt role variables
+# ----------------------------------------
+apt_install:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - wget
+  - cifs-utils
+  - software-properties-common
+  - python3-pip
+  - openssh-server
+  - "{{ (ansible_service_mgr == 'systemd') | ternary('python3-systemd', '') }}"
+  - python2.7
+  - git
+
+apt_remove: [] # list of packages to remove
+apt_remove_purge: true
+
+# singleplatform-eng.users role variables
+# ----------------------------------------
+users:
+  - username: lucas
+    uid: 1000
+    name: Lucas Marcolongo
+    groups:
+      - administrators
+      - developers
+      - users
+      - root
+    append: true
+    ssh_key:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDNFeQPhPMI2W5Ot5B+Cs7XK5F2TmvjsAiLVD0Ix+tM8AUKjmjLc/Fvt3UvPqY+U09yfu1S6QTL41Q0xQln8MUU+r5DLWh01UiA4obC/m76MGP1Vv3tGubP6+18bJXxNXB7vhPsy5ruTjgAsbXep3PVKjjqZfdrKAiLBF0Zj380KOapZVTDf51vS5ClEFSTX6xgX6VB3rtjYs8aB2GxpAIniLTOmfhkednYhs3bdNRv/MLO0J6SL4+Z//gEg4bq9VsYZviOulBLt2176kk4fyPc2azdIII2Apk2Ulqr9RGvIJ5LVbNpsKDoLzEYPFW/sJ82z4o9uSYXMruKSQWrqkCo5GxsGAi7xTGcVFO0wKPxr3wWZW+K35V7jyWAJFamsnXQUoeXlfIu/DzUfgJ+TSILWWr6ZrV/y0ohkSp9hs1ByDsjmmLEI5SZDjDDs07zaEa6VO9eDuh3xsqB8s2vsaJ+fegDKxm08//rltAXhSx45EADCOzsCYNXteP8eexuqgBQAL11OSCKp6PX4SGDGnu9dip0jpDzZqVpY/AcIxFJsY7niKw+FIsT8lM+4Gxm4w3nUWGnKLTnxqZ4XMeU1a8dna9fIN1WG3i+fBqsNHD8kRuKTS/0BibXAnnlK9FBak1onbg5fuqlSvsV41EscfEbP6g4IkXqVevTK8Ud5ihNSQ=="
+  - username: ansible
+    uid: 1001
+    name: Ansible Automation
+    groups:
+      - administrators
+      - developers
+      - users
+      - root
+    append: true
+    ssh_key:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDNFeQPhPMI2W5Ot5B+Cs7XK5F2TmvjsAiLVD0Ix+tM8AUKjmjLc/Fvt3UvPqY+U09yfu1S6QTL41Q0xQln8MUU+r5DLWh01UiA4obC/m76MGP1Vv3tGubP6+18bJXxNXB7vhPsy5ruTjgAsbXep3PVKjjqZfdrKAiLBF0Zj380KOapZVTDf51vS5ClEFSTX6xgX6VB3rtjYs8aB2GxpAIniLTOmfhkednYhs3bdNRv/MLO0J6SL4+Z//gEg4bq9VsYZviOulBLt2176kk4fyPc2azdIII2Apk2Ulqr9RGvIJ5LVbNpsKDoLzEYPFW/sJ82z4o9uSYXMruKSQWrqkCo5GxsGAi7xTGcVFO0wKPxr3wWZW+K35V7jyWAJFamsnXQUoeXlfIu/DzUfgJ+TSILWWr6ZrV/y0ohkSp9hs1ByDsjmmLEI5SZDjDDs07zaEa6VO9eDuh3xsqB8s2vsaJ+fegDKxm08//rltAXhSx45EADCOzsCYNXteP8eexuqgBQAL11OSCKp6PX4SGDGnu9dip0jpDzZqVpY/AcIxFJsY7niKw+FIsT8lM+4Gxm4w3nUWGnKLTnxqZ4XMeU1a8dna9fIN1WG3i+fBqsNHD8kRuKTS/0BibXAnnlK9FBak1onbg5fuqlSvsV41EscfEbP6g4IkXqVevTK8Ud5ihNSQ=="
+
+groups_to_create:
+  - name: administrators
+    gid: 10000
+  - name: developers
+    gid: 10001
+  - name: users
+    gid: 10002
+
+users_deleted: []

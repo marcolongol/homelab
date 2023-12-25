@@ -1,0 +1,40 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+env:
+  packages_to_install: kubeconform yq kustomize
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - name: Install Scoop
+        uses: MinoruSekine/setup-scoop@v3
+        with:
+          install_scoop: "true"
+          add_extras_bucket: "true"
+          scoop_update: "true"
+          update_path: "true"
+
+      - name: Install packages
+        run: |
+          scoop install ${{ env.packages_to_install }}
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run tests
+        shell: pwsh
+        run: |
+          Invoke-Pester ./tests -Output Detailed

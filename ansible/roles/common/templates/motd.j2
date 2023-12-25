@@ -1,0 +1,29 @@
+Hostname: {{ ansible_hostname }}
+{% if ansible_distribution is defined %}
+Distribution: {{ ansible_distribution }} {{ ansible_distribution_version }}
+{% endif %}
+{% if ansible_kernel is defined %}
+Kernel: {{ ansible_kernel }}
+{% endif %}
+{% if ansible_architecture is defined %}
+Architecture: {{ ansible_architecture }}
+{% endif %}
+{% if ansible_memtotal_mb is defined %}
+Memory: {{ ansible_memtotal_mb }} MB
+{% endif %}
+{% if ansible_processor is defined and ansible_processor_cores is defined and ansible_processor_threads_per_core is defined %}
+CPU Model: {{ ansible_processor[-1] }} ({{ ansible_processor_cores }} cores x {{ ansible_processor_threads_per_core*ansible_processor_cores }} threads)
+{% endif %}
+{% macro render_interface(interface) %}
+{% if interface is defined and interface.interface is defined%}
+Interface: {{ interface.interface }} - {{ interface.macaddress }} ({{ interface.address }})
+{%- endif %}
+{%- endmacro %}
+{{ render_interface(ansible_default_ipv4) }}
+{{ render_interface(ansible_default_ipv6) }}
+{% if ansible_date_time is defined %}
+Timezone: {{ ansible_date_time.tz }}
+{% endif %}
+---
+
+{{ motd }}

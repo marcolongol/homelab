@@ -1,0 +1,13 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cert-manager:domain-solver
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: godaddy-webhook:domain-solver
+subjects:
+  - kind: ServiceAccount
+    name: cert-manager
+    namespace: networking-system

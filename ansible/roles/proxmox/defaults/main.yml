@@ -1,0 +1,26 @@
+# code: language=ansible
+---
+proxmox_roles_to_include:
+  - lae.proxmox
+
+proxmox_dependencies:
+  - openvswitch-switch
+  - libguestfs-tools
+  - python3-proxmoxer
+
+proxmox_manage_images: false
+
+proxmox_images_dir: /isos/template/iso
+
+proxmox_images_urls:
+  regular: []
+  cloud_init: []
+
+proxmox_manage_vms: false
+
+proxmox_vms: []
+
+proxmox_vms_ssh_key: "{{ lookup('file', 'id_rsa.pub') }}"
+
+proxmox_manange_networking: false
+proxmox_interfaces_template: "routed-hetzner.j2"

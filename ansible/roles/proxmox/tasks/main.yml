@@ -1,0 +1,122 @@
+# code: language=ansible
+---
+- name: Include distribution-specific variables
+  ansible.builtin.include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - "default.yml"
+
+- name: Install dependencies
+  ansible.builtin.package:
+    name: "{{ proxmox_dependencies }}"
+    state: present
+
+- name: Configure Networking
+  when: proxmox_manage_networking
+  ansible.builtin.template:
+    src: "{{ proxmox_interfaces_template }}"
+    dest: /etc/network/interfaces
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart Networking
+
+- name: Create management group
+  ansible.builtin.group:
+    name: "{{ pve_group }}"
+    state: present
+
+- name: Create management user
+  ansible.builtin.user:
+    name: "{{ pve_group }}"
+    password: "{{ pve_group_password if pve_group_password is defined else pve_group | password_hash('sha512') }}"
+    group: "{{ pve_group }}"
+    state: present
+    system: true
+
+- name: Include Wrapped Roles
+  loop: "{{ proxmox_roles_to_include }}"
+  loop_control:
+    loop_var: role
+  when: proxmox_roles_to_include is defined and proxmox_roles_to_include | default([]) | intersect([role]) | length > 0
+  ansible.builtin.include_role:
+    name: "{{ role }}"
+
+- name: Manage Images
+  when: proxmox_manage_images
+  block:
+    - name: Create Images directory
+      ansible.builtin.file:
+        path: "{{ proxmox_images_dir }}"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Download Regular Images
+      ansible.builtin.get_url:
+        url: "{{ item.url }}"
+        dest: "{{ proxmox_images_dir }}/{{ item.name }}"
+        mode: "0644"
+      loop: "{{ proxmox_images_urls.regular }}"
+
+    - name: Download Cloud-Init Images
+      ansible.builtin.get_url:
+        url: "{{ item.url }}"
+        dest: "{{ proxmox_images_dir }}/{{ item.name }}"
+        mode: "0644"
+      loop: "{{ proxmox_images_urls.cloud_init }}"
+      register: images_downloads
+      notify: Prepare Cloud-Init Images
+
+    - name: Flush Handlers
+      ansible.builtin.meta: flush_handlers
+
+- name: Manage VMs
+  when: proxmox_manage_vms
+  tags: vms
+  block:
+    - name: Create VMs
+      community.general.proxmox_kvm:
+        agent: "{{ item.agent | default(omit) }}"
+        api_host: "{{ pve_api_host }}"
+        api_password: "{{ pve_api_password }}"
+        api_user: "{{ pve_api_user }}"
+        bios: "{{ item.bios | default(omit) }}"
+        cipassword: "{{ item.cipassword | default(omit) }}"
+        ciuser: "{{ item.ciuser | default(omit) }}"
+        cores: "{{ item.cores | default(omit) }}"
+        cpu: "{{ item.cpu | default(omit) }}"
+        ide: "{{ item.ide | default(omit) }}"
+        ipconfig: "{{ item.ipconfig | default(omit) }}"
+        machine: "{{ item.machine | default(omit) }}"
+        memory: "{{ item.memory | default(omit) }}"
+        name: "{{ item.name }}"
+        net: "{{ item.net | default(omit) }}"
+        node: "{{ item.node }}"
+        onboot: "{{ item.onboot | default(omit) }}"
+        boot: "{{ item.boot | default(omit) }}"
+        ostype: "{{ item.ostype | default(omit) }}"
+        scsihw: "{{ item.scsihw | default(omit) }}"
+        serial: "{{ item.serial | default(omit) }}"
+        sockets: "{{ item.sockets | default(omit) }}"
+        nameservers: "{{ item.nameservers | default(omit) }}"
+        state: present
+        tags: "{{ item.tags | default(omit) }}"
+        vga: "{{ item.vga | default(omit) }}"
+        virtio: "{{ item.virtio | default(omit) }}"
+        vmid: "{{ item.vmid | default(omit) }}"
+        timeout: "{{ item.timeout | default(120) }}"
+      loop: "{{ proxmox_vms }}"
+
+    - name: Start VMs
+      community.general.proxmox_kvm:
+        api_host: "{{ pve_api_host }}"
+        api_user: "{{ pve_api_user }}"
+        api_password: "{{ pve_api_password }}"
+        node: "{{ item.node }}"
+        vmid: "{{ item.vmid }}"
+        state: started
+      loop: "{{ proxmox_vms }}"
+      failed_when: false

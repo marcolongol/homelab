@@ -1,0 +1,37 @@
+# code: language=ansible
+---
+- name: Restart Networking
+  block:
+    - name: Reboot for network changes
+      listen: "Restart Networking"
+      ansible.builtin.reboot:
+        reboot_timeout: 300
+        post_reboot_delay: 60
+        connect_timeout: 60
+        pre_reboot_delay: 60
+        test_command: uptime
+    - name: Wait for proxmox to come back online
+      listen: "Restart Networking"
+      ansible.builtin.wait_for_connection:
+        delay: 60
+        timeout: 300
+
+- name: Prepare Cloud-Init Images
+  ansible.builtin.shell: |
+    if [ "{{ item.changed }}" = "True" ]; then
+      image="{{ item.dest }}"
+      qemu-img resize $image 32G
+      virt-customize -a $image --run-command 'apt-get update'
+      virt-customize -a $image --run-command 'apt-get install -y cloud-init'
+      virt-customize -a $image --run-command 'apt-get install -y qemu-guest-agent'
+      virt-customize -a $image --ssh-inject root:string:"{{ proxmox_vms_ssh_key }}"
+      virt-customize -a $image --run-command '>/etc/machine-id'
+      virt-customize -a $image --run-command 'apt-get -y clean'
+      virt-customize -a $image --run-command 'apt-get -y autoremove'
+      virt-customize -a $image --run-command 'history -c'
+      virt-customize -a $image --run-command 'sync'
+      virt-customize -a $image --run-command 'shutdown -h now'
+    fi
+  with_items: "{{ images_downloads.results }}"
+  changed_when: item.changed == 1
+  failed_when: item.failed == 1
