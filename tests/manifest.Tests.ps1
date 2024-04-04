@@ -11,7 +11,7 @@ Describe "Manifests" {
             "default"
             "$($TMP_DIR)\\flux-crd-schemas"
             "https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json"
-            "https://raw.githubusercontent.com/marcolongol/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json"
+            "https://raw.githubusercontent.com/marcolongol/CRDs-catalog/develop/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json"
             "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/{{.NormalizedKubernetesVersion}}/{{.ResourceKind}}.json"
             "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/{{.ResourceKind}}.json"
         )
