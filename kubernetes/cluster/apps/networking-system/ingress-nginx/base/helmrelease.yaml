@@ -27,6 +27,7 @@ spec:
   values:
     tcp:
       "3890": "auth-system/lldap:3890"
+      "5432": "postgres-operator/pgo-cluster-ha:5432"
     controller:
       kind: DaemonSet
       hostNetwork: true
