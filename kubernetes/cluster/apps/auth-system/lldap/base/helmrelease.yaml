@@ -45,11 +45,6 @@ spec:
             envFrom:
               - secretRef:
                   name: lldap-secret
-            env:
-              - name: LLDAP_LDAP_PORT
-                value: &ldapPort 3890
-              - name: LLDAP_HTTPS_PORT
-                value: &web 17170
     service:
       main:
         controller: lldap
@@ -57,11 +52,12 @@ spec:
           ldap:
             enabled: true
             protocol: TCP
-            port: *ldapPort
+            port: 389
+            targetPort: 3890
           web:
             enabled: true
             protocol: TCP
-            port: *web
+            port: 17170
     ingress:
       main:
         enabled: true

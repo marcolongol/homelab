@@ -26,7 +26,13 @@ spec:
       retries: 5
   values:
     tcp:
-      "3890": "auth-system/lldap:3890"
+      "25": "mail-system/docker-mailserver:25"
+      "143": "mail-system/docker-mailserver:143"
+      "465": "mail-system/docker-mailserver:465"
+      "587": "mail-system/docker-mailserver:587"
+      "993": "mail-system/docker-mailserver:993"
+      "995": "mail-system/docker-mailserver:995"
+      "389": "auth-system/lldap:389"
       "5432": "postgres-operator/pgo-cluster-ha:5432"
     controller:
       kind: DaemonSet
