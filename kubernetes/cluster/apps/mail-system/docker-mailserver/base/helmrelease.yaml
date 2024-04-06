@@ -209,3 +209,35 @@ spec:
           - path: /tmp/dms/custom-certs/public.crt
             subPath: tls.crt
             readOnly: true
+      mail-data:
+        enabled: true
+        storageClass: mayastor-nvmf
+        accessMode: ReadWriteOnce
+        size: 2Gi
+        globalMounts:
+          - path: /var/mail
+        retain: false
+      mail-state:
+        enabled: true
+        storageClass: mayastor-nvmf
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        globalMounts:
+          - path: /var/mail-state
+        retain: false
+      mail-logs:
+        enabled: true
+        storageClass: mayastor-nvmf
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        globalMounts:
+          - path: /var/log/mail
+        retain: false
+      mail-config:
+        enabled: true
+        storageClass: mayastor-nvmf
+        accessMode: ReadWriteOnce
+        size: 1Gi
+        globalMounts:
+          - path: /tmp/docker-mailserver
+        retain: false
