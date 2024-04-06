@@ -35,24 +35,15 @@ spec:
               repository: monogramm/autodiscover-email-settings
               tag: latest
             env:
-              - name: OVERRIDE_HOSTNAME
-                value: autodiscover.${SECRET_DOMAIN}
-              - name: COMPANY_NAME
-                value: "${SECRET_DOMAIN} Mail"
-              - name: SUPPORT_URL
-                value: https://autodiscover.${SECRET_DOMAIN}
-              - name: IMAP_HOST
-                value: mail.${SECRET_DOMAIN}
-              - name: IMAP_PORT
-                value: "143"
-              - name: IMAP_SOCKET
-                value: "SSL"
-              - name: SMTP_HOST
-                value: mail.${SECRET_DOMAIN}
-              - name: SMTP_PORT
-                value: "587"
-              - name: SMTP_SOCKET
-                value: "STARTTLS"
+              OVERRIDE_HOSTNAME: autodiscover.${SECRET_DOMAIN}
+              COMPANY_NAME: "${SECRET_DOMAIN} Mail"
+              SUPPORT_URL: "https://autodiscover.${SECRET_DOMAIN}"
+              IMAP_HOST: mail.${SECRET_DOMAIN}
+              IMAP_PORT: "143"
+              IMAP_SOCKET: "SSL"
+              SMTP_HOST: mail.${SECRET_DOMAIN}
+              SMTP_PORT: "587"
+              SMTP_SOCKET: "STARTTLS"
           roundcubemail:
             image:
               repository: roundcube/roundcubemail
