@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./lldap/kustomization-fluxCRD.yaml
+  - ./authelia/kustomization-fluxCRD.yaml

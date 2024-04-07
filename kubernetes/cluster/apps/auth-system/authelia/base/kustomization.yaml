@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./secret.yaml
+  - ./secret.sops.yaml
+  - ./helmrelease.yaml
+configMapGenerator:
+  - name: authelia-config
+    namespace: auth-system
+    files:
+      - ./config/configuration.yaml
+generatorOptions:
+  disableNameSuffixHash: true
