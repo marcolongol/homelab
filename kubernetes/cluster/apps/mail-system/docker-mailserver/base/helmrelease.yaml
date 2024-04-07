@@ -61,65 +61,43 @@ spec:
               repository: ghcr.io/docker-mailserver/docker-mailserver
               tag: 13.3.1
             env:
-              - name: LOG_LEVEL
-                value: "debug"
-              - name: SUPERVISOR_LOGLEVEL
-                value: "debug"
-              - name: OVERRIDE_HOSTNAME
-                value: mail.${SECRET_DOMAIN}
-              - name: SPAMASSASSIN_SPAM_TO_INBOX
-                value: 1
-              - name: ENABLE_FAIL2BAN
-                value: 0
-              - name: ENABLE_AMAVIS
-                value: 0
-              - name: SPOOF_PROTECTION
-                value: 0
-              - name: ENABLE_OPENDKIM
-                value: 0
-              - name: ENABLE_OPENDMARC
-                value: 1
-              - name: SSL_TYPE
-                value: manual
-              - name: SSL_CERT_PATH
-                value: /tmp/dms/custom-certs/public.crt
-              - name: SSL_KEY_PATH
-                value: /tmp/dms/custom-certs/private.key
-              - name: ACCOUNT_PROVISIONER
-                value: LDAP
-              - name: LDAP_SERVER_HOST
-                value: ldap://lldap.auth-system.svc.cluster.local
-              - name: LDAP_SEARCH_BASE
-                valueFrom:
-                  secretKeyRef:
-                    name: lldap-secret
-                    key: LDAP_SEARCH_BASE
-              - name: LDAP_BIND_DN
+              ACCOUNT_PROVISIONER: LDAP
+              DOVECOT_AUTH_BIND: yes
+              DOVECOT_USER_ATTRS: "=uid=5000,=gid=5000,=home=/var/mail/%Ln,=mail=maildir:~/Maildir"
+              DOVECOT_USER_FILTER: "(&(objectClass=inetOrgPerson)(|(uid=%u)(mail=%u)))"
+              ENABLE_AMAVIS: 0
+              ENABLE_FAIL2BAN: 1
+              ENABLE_OPENDKIM: 1
+              ENABLE_OPENDMARC: 1
+              LDAP_BIND_DN:
                 valueFrom:
                   secretKeyRef:
                     name: lldap-secret
                     key: LDAP_BIND_DN
-              - name: LDAP_BIND_PW
+              LDAP_BIND_PW:
                 valueFrom:
                   secretKeyRef:
                     name: lldap-secret
                     key: LLDAP_LDAP_USER_PASS
-              - name: LDAP_QUERY_FILTER
-                value: "(&(objectClass=inetOrgPerson)(|(uid=%u)(mail=%u)))"
-              - name: LDAP_QUERY_FILTER_GROUP
-                value: "(&(objectClass=groupOfUniqueNames)(uid=%s))"
-              - name: LDAP_QUERY_FILTER_ALIAS
-                value: "(&(objectClass=inetOrgPerson)(|(uid=%u)(mail=%u)))"
-              - name: LDAP_QUERY_FILTER_DOMAIN
-                value: "(mail=*@%s)"
-              - name: DOVECOT_AUTH_BIND
-                value: yes
-              - name: DOVECOT_USER_FILTER
-                value: "(&(objectClass=inetOrgPerson)(|(uid=%u)(mail=%u)))"
-              - name: DOVECOT_USER_ATTRS
-                value: "=uid=5000,=gid=5000,=home=/var/mail/%Ln,=mail=maildir:~/Maildir"
-              - name: POSTMASTER_ADDRESS
-                value: postmaster@${SECRET_DOMAIN}
+              LDAP_SEARCH_BASE:
+                valueFrom:
+                  secretKeyRef:
+                    name: lldap-secret
+                    key: LDAP_SEARCH_BASE
+              LDAP_QUERY_FILTER_ALIAS: "(&(objectClass=inetOrgPerson)(|(uid=%u)(mail=%u)))"
+              LDAP_QUERY_FILTER_DOMAIN: "(mail=*@%s)"
+              LDAP_QUERY_FILTER_GROUP: "(&(objectClass=groupOfUniqueNames)(uid=%s))"
+              LDAP_QUERY_FILTER: "(&(objectClass=inetOrgPerson)(|(uid=%u)(mail=%u)))"
+              LDAP_SERVER_HOST: ldap://lldap.auth-system.svc.cluster.local
+              LOG_LEVEL: debug
+              OVERRIDE_HOSTNAME: mail.${SECRET_DOMAIN}
+              POSTMASTER_ADDRESS: postmaster@${SECRET_DOMAIN}
+              SPAMASSASSIN_SPAM_TO_INBOX: 1
+              SPOOF_PROTECTION: 0
+              SSL_CERT_PATH: /tmp/dms/custom-certs/public.crt
+              SSL_KEY_PATH: /tmp/dms/custom-certs/private.key
+              SSL_TYPE: manual
+              SUPERVISOR_LOGLEVEL: debug
     service:
       main:
         controller: docker-mailserver
