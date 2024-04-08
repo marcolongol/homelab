@@ -51,12 +51,22 @@ spec:
       ingressClassResource:
         default: true
       config:
+        client-body-buffer-size: "8k"
+        client-body-timeout: "60s"
+        client-header-timeout: "60s"
+        enable-brotli: "true"
+        hsts: "true"
+        keep-alive-requests: "1000"
+        keep-alive: "60"
+        proxy-body-size: 0
+        proxy-buffer-size: "16k"
+        ssl-redirect: "true"
+        use-annotations: "true"
         use-forwarded-headers: "true"
-        use-regex: "true"
         use-geoip: "true"
         use-real-ip: "true"
-        use-ssl-passthrough: "true"
-        use-status: "true"
+        use-regex: "true"
         use-secure-backends: "true"
         use-snippets: "true"
-        use-annotations: "true"
+        use-ssl-passthrough: "true"
+        use-status: "true"
