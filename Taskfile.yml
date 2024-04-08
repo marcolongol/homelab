@@ -6,4 +6,4 @@ tasks:
 
   test-manifests:
     cmds:
-      - pwsh -Command "Invoke-Pester -Path ./tests -Output Detailed"
+      - pwsh -Command "Invoke-Pester -Path ./tests -Output Diagnostic"
