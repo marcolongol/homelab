@@ -27,7 +27,7 @@ spec:
   values:
     controllers:
       authelia:
-        replicas: 3
+        replicas: 1
         strategy: RollingUpdate
         containers:
           main:
@@ -100,6 +100,10 @@ spec:
       main:
         enabled: true
         className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            add_header Cache-Control "no-store";
+            add_header Pragma "no-cache";
         hosts:
           - host: &host auth.${SECRET_DOMAIN}
             paths:
