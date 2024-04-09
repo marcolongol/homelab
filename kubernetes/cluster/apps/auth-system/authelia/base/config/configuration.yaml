@@ -39,7 +39,7 @@ access_control:
     - domain: "*.${SECRET_DOMAIN}"
       networks:
         - internal
-      policy: bypass
+      policy: two_factor
     - domain: "*.${SECRET_DOMAIN}"
       policy: two_factor
 session:
