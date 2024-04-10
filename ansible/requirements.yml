@@ -2,7 +2,7 @@
 ---
 roles:
   - src: Oefenweb.apt
-    version: v3.1.0
+    version: v3.2.0
   - src: singleplatform-eng.users
     version: v1.2.6
   - src: geerlingguy.ntp
