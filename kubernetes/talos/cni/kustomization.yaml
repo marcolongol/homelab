@@ -7,10 +7,10 @@ helmCharts:
     repo: https://helm.cilium.io
     version: 1.15.3
     releaseName: cilium
-    namespace: kube-system
+    namespace: networking-system
     valuesFile: values.yaml
 commonAnnotations:
   meta.helm.sh/release-name: cilium
-  meta.helm.sh/release-namespace: kube-system
+  meta.helm.sh/release-namespace: networking-system
 commonLabels:
   app.kubernetes.io/managed-by: Helm
