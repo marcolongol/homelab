@@ -10,7 +10,7 @@ roles:
   - src: dev-sec.ssh-hardening
     version: 9.7.0
   - src: Oefenweb.fail2ban
-    version: v4.0.8
+    version: v4.0.9
   - src: lae.proxmox
     version: v1.7.1
   - src: geerlingguy.docker
