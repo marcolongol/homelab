@@ -1,0 +1,26 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>marcolongol/renovate-config:default.json5",
+    "github>marcolongol/renovate-config:automerge-minor.json5"
+  ],
+  "gitAuthor": "marcolongol-bot <166586793+marcolongol-bot[bot]@users.noreply.github.com>",
+  "helm-values": {
+    "fileMatch": ["kubernetes/cluster/.+/helm-?release\\.ya?ml$"]
+  },
+  "flux": {
+    "fileMatch": [
+      "kubernetes/cluster/.+/helm-?release\\.ya?ml$",
+      "flux-system/.+\\.ya?ml$",
+      "charts/.+\\.ya?ml$"
+    ]
+  },
+  "kubernetes": {
+    "fileMatch": [
+      "(^|/)(kubernetes/(talos|cluster))/.+/(deployment|statefulset|daemonset|cronjob|job|helm-?release|kustomization)\\.ya?ml$"
+    ]
+  },
+  "ansible-galaxy": {
+    "fileMatch": ["(^|/)(ansible)(/.+)?/(galaxy|requirements)\\.ya?ml$"]
+  }
+}
