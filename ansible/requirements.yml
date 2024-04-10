@@ -18,7 +18,7 @@ roles:
 
 collections:
   - name: community.general
-    version: 8.4.0
+    version: 8.5.0
   - name: community.docker
     version: 3.8.0
   - name: community.sops
