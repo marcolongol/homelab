@@ -1,0 +1,97 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app screeps
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: screeps-system
+  releaseName: *app
+  chart:
+    spec:
+      chart: app-template
+      version: 3.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    global:
+      hostname: "screeps.${SECRET_DOMAIN}"
+    controllers:
+      main:
+        initContainers:
+          init-permissions:
+            image:
+              repository: busybox
+              tag: 1.33.1
+              pullPolicy: IfNotPresent
+            command:
+              - sh
+              - -c
+              - |
+                find /screeps -mindepth 1 -maxdepth 1 -not -name config.yml -exec chown -R 1000:1000 {} \;
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
+              capabilities:
+                add:
+                  - CHOWN
+        containers:
+          screeps:
+            image:
+              repository: screepers/screeps-launcher
+              tag: v1.16.0
+            envFrom:
+              - secretRef:
+                  name: screeps-env
+          mongodb:
+            image:
+              repository: mongo
+              tag: 7.0.8
+          redis:
+            image:
+              repository: redis
+              tag: 7.2.4
+    service:
+      main:
+        controller: main
+        ports:
+          screeps:
+            enabled: true
+            protocol: TCP
+            port: 21025
+            targetPort: 21025
+    persistence:
+      config:
+        enabled: true
+        type: configMap
+        name: screeps-config
+        globalMounts:
+          - path: /screeps/config.yml
+            subPath: config.yaml
+      data:
+        enabled: true
+        storageClass: mayastor-nvmf
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        globalMounts:
+          - path: /data
+        retain: false
+      screeps-data:
+        enabled: true
+        storageClass: mayastor-nvmf
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        globalMounts:
+          - path: /screeps
+        retain: false

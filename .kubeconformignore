@@ -1,1 +1,2 @@
 ./kubernetes/cluster/apps/auth-system/authelia/base/config/configuration.yaml
+./kubernetes/cluster/apps/screeps-system/screeps/base/config/config.yaml
