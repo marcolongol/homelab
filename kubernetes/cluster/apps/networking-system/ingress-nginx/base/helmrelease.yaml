@@ -34,6 +34,7 @@ spec:
       "995": "mail-system/docker-mailserver:995"
       "389": "auth-system/lldap:389"
       "5432": "postgres-operator/pgo-cluster-ha:5432"
+      "21025": "screeps-system/screeps:21025"
     controller:
       kind: DaemonSet
       hostNetwork: true
