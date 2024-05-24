@@ -29,7 +29,7 @@ spec:
       domain: &host flamingo.${SECRET_DOMAIN}
       image:
         repository: ghcr.io/flux-subsystem-argo/fsa/argocd
-        tag: v2.10.2-fl.23-main-d2c9a8c
+        tag: v2.10.2-fl.23-main-d2c9a8cb
     configs:
       params:
         server.insecure: true
