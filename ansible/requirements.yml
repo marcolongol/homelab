@@ -20,6 +20,6 @@ collections:
   - name: community.general
     version: 8.6.1
   - name: community.docker
-    version: 3.10.2
+    version: 3.10.3
   - name: community.sops
     version: 1.6.7
