@@ -14,7 +14,7 @@ roles:
   - src: lae.proxmox
     version: v1.8.1
   - src: geerlingguy.docker
-    version: 7.1.0
+    version: 7.2.0
 
 collections:
   - name: community.general
