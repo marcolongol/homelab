@@ -1,0 +1,26 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app awx-operator
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: awx-operator
+  releaseName: *app
+  chart:
+    spec:
+      chart: awx-operator
+      version: 2.17.0
+      sourceRef:
+        kind: HelmRepository
+        name: awx-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
