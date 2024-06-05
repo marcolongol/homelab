@@ -13,6 +13,7 @@ resources:
   - ./godaddy-webhook.yaml
   - ./ingress-nginx.yaml
   - ./jetstack.yaml
+  - ./kluctl.yaml
   - ./kubelet-csr-approver.yaml
   - ./kubernetes-dashboard.yaml
   - ./mayastor.yaml
