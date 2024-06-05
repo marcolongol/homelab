@@ -59,7 +59,7 @@ spec:
           docker-mailserver:
             image:
               repository: ghcr.io/docker-mailserver/docker-mailserver
-              tag: 13.3.1
+              tag: 14.0.0
             env:
               ACCOUNT_PROVISIONER: LDAP
               DOVECOT_AUTH_BIND: yes
