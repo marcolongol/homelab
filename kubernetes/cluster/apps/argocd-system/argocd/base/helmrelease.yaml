@@ -35,7 +35,7 @@ spec:
         enabled: true
         ingressClassName: nginx
         annotations:
-          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8
+          nginx.ingress.kubernetes.io/whitelist-source-range: ${CONFIG_NGINX_WHITELIST}
         extraTls:
           - hosts:
               - *host
