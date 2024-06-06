@@ -1,11 +1,12 @@
 ---
-# yaml-language-server: $schema=
+# yaml-language-server: $schema=https://raw.githubusercontent.com/marcolongol/CRDs-catalog/develop/templates.kluctl.io/objecttemplate_v1alpha1.json
 apiVersion: templates.kluctl.io/v1alpha1
 kind: ObjectTemplate
 metadata:
   name: postgres-secret-transformer
   namespace: awx-operator
 spec:
+  interval: 1h
   serviceAccountName: awx-operator-controller-manager
   prune: true
   matrix:
