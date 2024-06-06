@@ -1,0 +1,20 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/marcolongol/CRDs-catalog/main/awx.ansible.com/awx_v1beta1.json
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx
+  namespace: awx-operator
+spec:
+  ingress_annotations: |
+    nginx.ingress.kubernetes.io/whitelist-source-range: ${CONFIG_NGINX_WHITELIST}
+    nginx.ingress.kubernetes.io/auth-method: "GET"
+    nginx.ingress.kubernetes.io/auth-url: "http://authelia.auth-system.svc.cluster.local:9091/api/verify"
+    nginx.ingress.kubernetes.io/auth-signin: "https://auth.${SECRET_DOMAIN}?rm=$request_method"
+    nginx.ingress.kubernetes.io/auth-response-headers: "Remote-User,Remote-Name,Remote-Groups,Remote-Email"
+  postgres_configuration_secret: pgo-cluster-pguser-awx-transformed
+  ingress_type: ingress
+  ingress_class_name: nginx
+  ingress_tls_secret: ingress-nginx-tls
+  hostname: "awx.${SECRET_DOMAIN}"
+  no_log: false

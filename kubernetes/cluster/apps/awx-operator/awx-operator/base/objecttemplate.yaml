@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/marcolongol/CRDs-catalog/develop/templates.kluctl.io/objecttemplate_v1alpha1.json
+apiVersion: templates.kluctl.io/v1alpha1
+kind: ObjectTemplate
+metadata:
+  name: postgres-secret-transformer
+  namespace: awx-operator
+spec:
+  interval: 1h
+  serviceAccountName: awx-operator-controller-manager
+  prune: true
+  matrix:
+    - name: secret
+      object:
+        ref:
+          apiVersion: v1
+          kind: Secret
+          name: pgo-cluster-pguser-awx
+  templates:
+    - object:
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: pgo-cluster-pguser-awx-transformed
+        stringData:
+          host: "{{ matrix.secret.data.host | b64decode }}"
+          port: "{{ matrix.secret.data.port | b64decode }}"
+          database: "{{ matrix.secret.data.dbname | b64decode }}"
+          username: "{{ matrix.secret.data.user | b64decode }}"
+          password: "{{ matrix.secret.data.password | b64decode }}"
+          sslmode: "prefer"
+          target_session_attrs: "read-write"
+          type: unmanaged

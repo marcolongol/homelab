@@ -29,18 +29,13 @@ spec:
       domain: &host flamingo.${SECRET_DOMAIN}
       image:
         repository: ghcr.io/flux-subsystem-argo/fsa/argocd
-        tag: v2.10.2-fl.23-main-d2c9a8c
-    configs:
-      params:
-        server.insecure: true
+        tag: v2.10.2-fl.23-main-d2c9a8cb
     server:
       ingress:
         enabled: true
         ingressClassName: nginx
         annotations:
-          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-          nginx.ingress.kubernetes.io/whitelist-source-range: 10.0.0.0/8
+          nginx.ingress.kubernetes.io/whitelist-source-range: ${CONFIG_NGINX_WHITELIST}
         extraTls:
           - hosts:
               - *host

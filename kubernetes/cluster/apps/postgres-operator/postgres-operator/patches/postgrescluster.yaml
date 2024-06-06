@@ -10,7 +10,7 @@ spec:
   metadata:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: auth-system
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "auth-system,awx-operator"
   patroni:
     dynamicConfiguration:
       synchronous_mode: true
@@ -40,6 +40,9 @@ spec:
     - name: authelia
       databases:
         - authelia
+    - name: awx
+      databases:
+        - awx
   backups:
     pgbackrest:
       global:
