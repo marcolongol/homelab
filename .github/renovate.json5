@@ -17,7 +17,4 @@
       "(^|/)(kubernetes/(talos|cluster))/.+/(deployment|statefulset|daemonset|cronjob|job|helm-?release|kustomization)\\.ya?ml$"
     ]
   },
-  "ansible-galaxy": {
-    "fileMatch": ["(^|/)(ansible)(/.+)?/(galaxy|requirements)\\.ya?ml$"]
-  }
 }
