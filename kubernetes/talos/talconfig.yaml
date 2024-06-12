@@ -52,8 +52,6 @@ controlPlane:
       routes:
         - network: 0.0.0.0/0
           gateway: 10.0.0.1
-        - network: ::/0
-          gateway: 2a01:4f9:3051:4763:dead::beef
       vip:
         ip: 10.0.0.200
   schematic:
@@ -79,8 +77,6 @@ worker:
       routes:
         - network: 0.0.0.0/0
           gateway: 10.0.0.1
-        - network: ::/0
-          gateway: 2a01:4f9:3051:4763:dead::beef
   schematic:
     customization:
       extraKernelArgs:
