@@ -1,6 +1,6 @@
 ---
 clusterName: talos-cluster
-talosVersion: v1.6.4
+talosVersion: 1.7.4
 kubernetesVersion: v1.29.2
 endpoint: https://10.0.0.200:6443
 allowSchedulingOnMasters: true
@@ -13,14 +13,6 @@ patches:
       kubelet:
         extraConfig:
           serverTLSBootstrap: true
-        extraMounts:
-          - destination: /var/local
-            type: bind
-            source: /var/local
-            options:
-              - rbind
-              - rshared
-              - rw
 
 nodes:
   - hostname: talos01
