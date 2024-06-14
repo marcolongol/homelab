@@ -6,7 +6,7 @@ metadata:
   name: cilium-base
   namespace: flux-system
 spec:
-  path: ./kubernetes/cluster/apps/networking-system/cilium/base
+  path: ./kubernetes/cluster/apps/kube-system/cilium/base
   sourceRef:
     kind: GitRepository
     name: flux-system
