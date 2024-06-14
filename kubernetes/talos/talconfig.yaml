@@ -1,7 +1,7 @@
 ---
 clusterName: talos-cluster
 talosVersion: 1.7.4
-kubernetesVersion: v1.29.2
+kubernetesVersion: v1.30.0
 endpoint: https://10.0.0.200:6443
 allowSchedulingOnMasters: true
 cniConfig:
