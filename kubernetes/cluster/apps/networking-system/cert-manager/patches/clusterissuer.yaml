@@ -11,11 +11,7 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:
-      - selector:
-          dnsNames:
-            - ${SECRET_DOMAIN}
-            - "*.${SECRET_DOMAIN}"
-        dns01:
+      - dns01:
           webhook:
             config:
               apiKeySecretRef:
@@ -25,6 +21,10 @@ spec:
               ttl: 600
             groupName: acme.${SECRET_DOMAIN}
             solverName: godaddy
+        selector:
+          dnsNames:
+            - ${SECRET_DOMAIN}
+            - "*.${SECRET_DOMAIN}"
 
 ---
 # yaml-language-server: $schema=https://schemas.budimanjojo.com/cert-manager.io/clusterissuer_v1.json
@@ -39,11 +39,7 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
-      - selector:
-          dnsNames:
-            - ${SECRET_DOMAIN}
-            - "*.${SECRET_DOMAIN}"
-        dns01:
+      - dns01:
           webhook:
             config:
               apiKeySecretRef:
@@ -53,3 +49,16 @@ spec:
               ttl: 600
             groupName: acme.${SECRET_DOMAIN}
             solverName: godaddy
+        selector:
+          dnsNames:
+            - ${SECRET_DOMAIN}
+            - "*.${SECRET_DOMAIN}"
+
+---
+# yaml-language-server: $schema=https://schemas.budimanjojo.com/cert-manager.io/clusterissuer_v1.json
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: selfsigned
+spec:
+  selfSigned: {}
