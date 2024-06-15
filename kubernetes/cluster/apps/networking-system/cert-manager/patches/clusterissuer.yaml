@@ -6,25 +6,20 @@ metadata:
   name: letsencrypt-prod
 spec:
   acme:
-    email: ${SECRET_EMAIL}
+    email: ${SECRET_CLUSTER_EMAIL}
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:
       - dns01:
-          webhook:
-            config:
-              apiKeySecretRef:
-                name: godaddy-api-key
-                key: token
-              production: true
-              ttl: 600
-            groupName: acme.${SECRET_DOMAIN}
-            solverName: godaddy
+          cloudflare:
+            email: ${SECRET_PUBLIC_EMAIL}
+            apiTokenSecretRef:
+              name: cloudflare-api-key
+              key: api-key
         selector:
-          dnsNames:
+          dnsZones:
             - ${SECRET_DOMAIN}
-            - "*.${SECRET_DOMAIN}"
 
 ---
 # yaml-language-server: $schema=https://schemas.budimanjojo.com/cert-manager.io/clusterissuer_v1.json
@@ -34,25 +29,20 @@ metadata:
   name: letsencrypt-staging
 spec:
   acme:
-    email: ${SECRET_EMAIL}
+    email: ${SECRET_CLUSTER_EMAIL}
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
       - dns01:
-          webhook:
-            config:
-              apiKeySecretRef:
-                name: godaddy-api-key
-                key: token
-              production: true
-              ttl: 600
-            groupName: acme.${SECRET_DOMAIN}
-            solverName: godaddy
+          cloudflare:
+            email: ${SECRET_PUBLIC_EMAIL}
+            apiTokenSecretRef:
+              name: cloudflare-api-key
+              key: api-key
         selector:
-          dnsNames:
+          dnsZones:
             - ${SECRET_DOMAIN}
-            - "*.${SECRET_DOMAIN}"
 
 ---
 # yaml-language-server: $schema=https://schemas.budimanjojo.com/cert-manager.io/clusterissuer_v1.json
