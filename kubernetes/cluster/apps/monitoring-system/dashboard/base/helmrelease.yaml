@@ -38,5 +38,5 @@ spec:
         hosts:
           - dashboard.${SECRET_DOMAIN}
         tls:
-          secretName: ingress-nginx-tls
+          secretName: ingress-nginx-prod
         useDefaultIngressClass: true

@@ -10,7 +10,6 @@ resources:
   - ./crunchydata-charts.yaml
   - ./csi-driver-smb.yaml
   - ./emberstack.yaml
-  - ./godaddy-webhook.yaml
   - ./ingress-nginx.yaml
   - ./jetstack.yaml
   - ./kluctl.yaml

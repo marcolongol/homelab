@@ -3,15 +3,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 helmCharts:
-  - name: cilium
-    repo: https://helm.cilium.io
-    version: 1.15.6
-    releaseName: cilium
+  - name: kubelet-csr-approver
+    repo: https://postfinance.github.io/kubelet-csr-approver
+    version: 1.2.1
+    releaseName: kubelet-csr-approver
     namespace: kube-system
-    valuesFile: values.yaml
-    includeCRDs: true
+    valuesInline:
+      providerRegex: ^talos\d+$
 commonAnnotations:
-  meta.helm.sh/release-name: cilium
+  meta.helm.sh/release-name: kubelet-csr-approver
   meta.helm.sh/release-namespace: kube-system
 commonLabels:
   app.kubernetes.io/managed-by: Helm

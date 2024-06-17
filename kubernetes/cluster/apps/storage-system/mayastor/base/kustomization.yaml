@@ -7,4 +7,3 @@ metadata:
   namespace: flux-system
 resources:
   - ./helmrelease.yaml
-  - ./storageclass.yaml

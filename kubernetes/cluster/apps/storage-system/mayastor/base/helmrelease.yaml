@@ -38,7 +38,11 @@ spec:
   uninstall:
     keepHistory: false
   maxHistory: 3
+  dependsOn:
+    - name: csi-driver-smb
   values:
+    localpv-provisioner:
+      enabled: false
     jaeger:
       enabled: false
     loki-stack:
@@ -46,7 +50,15 @@ spec:
     obs:
       callhome:
         enabled: false
+    etcd:
+      localpvScConfig:
+        enabled: false
+      persistence:
+        storageClass: "smb"
     storageClass:
-      enabled: false
+      default: true
+      nameSuffix: nvmf
+      parameters:
+        repl: 3
     io_engine:
       cpuCount: 1

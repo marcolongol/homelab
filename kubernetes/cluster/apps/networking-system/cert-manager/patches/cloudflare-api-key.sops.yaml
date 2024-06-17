@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.26.1-standalone-strict/secret-v1.json
+apiVersion: v1
+kind: Secret
+metadata:
+    name: cloudflare-api-key
+    namespace: networking-system
+stringData:
+    api-key: ENC[AES256_GCM,data:yZNOMJ2Fb0Xw6t2+V5KRYAzs/FewTyTJHZEyiSPz2I+qiVfCAVoEFw==,iv:MI5AukXZDg0QbUhbGpccLQad8x7OJ3P8BSUSg9NIzYA=,tag:8r7iHAKpZHJN4aQkK+hhvQ==,type:str]
+type: Opaque
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age19r6wen3fypsw5ykk0dj2e2hc0tyw2zlux6mw33c57pfg5jd9mg9sgjp3za
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBSOGVEVmo5T212b1YvemNk
+            R0phSmJWOVIrUEVsSk1RcmhSWE05cXQ1SUhVCkdTUE1oN295dGpDTjdKaHc5N3Qv
+            M2NmMjgyQnFROVpBRUFmWm8yMlR6WkUKLS0tIHpwV013U01SdkdHaEorWGVZVW5x
+            R3dvOHFSMTBPbWJWaXloQkJsc2p4RDgKvDfqQe8Pxx/l9zIeKtMkAd7eDsRbpKMz
+            zD8jV5uu3+omaK21bDb0ZtD2oqMM5JMLg2lMOYzh4SC20obp+yy5gA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-06-15T01:04:20Z"
+    mac: ENC[AES256_GCM,data:Owhoyf297MXtutqIF2YZ4EDQExMB8vYwiJQMLEnTWU79piKJODDT2CDl6Asb7cO/4e4mLhuyApnb007drz9fK0yfh4ANxtqY6kXdELP0gchauKRgynW8Ubh8B1TiNL/xNCwPeqDetKw5NijK+cyvOp04nCm9riDlFUUfaEZf6No=,iv:urc7FURfrFBoWIz2ugPO1sk2CEiHb6i08hzYJLaSXew=,tag:oejcyJtB2gY+JOMDzcNttQ==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData|caBundle)$
+    version: 3.8.1

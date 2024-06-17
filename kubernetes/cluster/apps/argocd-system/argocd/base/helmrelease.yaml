@@ -39,4 +39,4 @@ spec:
         extraTls:
           - hosts:
               - *host
-            secretName: ingress-nginx-tls
+            secretName: ingress-nginx-prod
