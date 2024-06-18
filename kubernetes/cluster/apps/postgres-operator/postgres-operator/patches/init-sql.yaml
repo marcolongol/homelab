@@ -8,3 +8,7 @@ data:
     \c postgres
     GRANT ALL PRIVILEGES ON DATABASE authelia TO authelia;
     GRANT ALL PRIVILEGES ON DATABASE awx TO awx;
+    \c authelia
+    GRANT ALL PRIVILEGES ON SCHEMA public TO authelia;
+    \c awx
+    GRANT ALL PRIVILEGES ON SCHEMA public TO awx;
