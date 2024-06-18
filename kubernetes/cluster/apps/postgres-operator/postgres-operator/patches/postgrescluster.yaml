@@ -7,6 +7,9 @@ metadata:
   namespace: postgres-operator
 spec:
   postgresVersion: 16
+  databaseInitSQL:
+    key: init.sql
+    name: init-sql
   metadata:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
