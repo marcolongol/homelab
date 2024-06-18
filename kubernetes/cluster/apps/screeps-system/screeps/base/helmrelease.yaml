@@ -39,13 +39,19 @@ spec:
               - sh
               - -c
               - |
-                find /screeps -mindepth 1 -maxdepth 1 -not -name config.yml -exec chown -R 1000:1000 {} \;
+                echo "Setting permissions on /screeps"
+                addgroup -g 1000 screeps && adduser -u 1000 -G screeps -D screeps
+                find /screeps -mindepth 0 -not -name config.yml -exec chown -R screeps:screeps {} \;
+                echo "Sleeping for 60 seconds"
+                sleep 60
             securityContext:
               runAsUser: 0
               runAsGroup: 0
               capabilities:
                 add:
                   - CHOWN
+                  - SETGID
+                  - SETUID
         containers:
           screeps:
             image:
@@ -54,6 +60,10 @@ spec:
             envFrom:
               - secretRef:
                   name: screeps-env
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+            workingDir: /screeps
           mongodb:
             image:
               repository: mongo
