@@ -18,6 +18,7 @@ spec:
     kind: ClusterIssuer
   dnsNames:
     - ${SECRET_DOMAIN}
+    - "*.${SECRET_DOMAIN}"
 
 ---
 # yaml-language-server: $schema=https://schemas.budimanjojo.com/cert-manager.io/certificate_v1.json
