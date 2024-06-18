@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: init-sql
+  namespace: postgres-operator
+data:
+  init.sql: |
+    \c postgres
+    GRANT ALL PRIVILEGES ON DATABASE authelia TO authelia;
+    GRANT ALL PRIVILEGES ON DATABASE awx TO awx;
