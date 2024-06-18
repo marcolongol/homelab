@@ -13,8 +13,14 @@ mods: # Recommended mods
 bots:
   simplebot: screepsbot-zeswarm
 serverConfig: # This section requires screepsmod-admin-utils to work
+  shardName: "marcolongo.cloud-shard0"
+  map: random_8x8
   welcomeText: |
     <h1 style="text-align: center;">Welcome to Screeps!</h1>
+  gclToCPU: true
+  maxCPU: 100
+  baseCPU: 20
+  stepCPU: 20
   constants: # Used to override screeps constants
     TEST_CONSTANT: 123
   tickRate: 1000 # In milliseconds. This is a lower bound. Users reported problems when set too low.
