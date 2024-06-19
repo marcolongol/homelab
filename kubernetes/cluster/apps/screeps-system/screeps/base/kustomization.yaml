@@ -9,5 +9,6 @@ configMapGenerator:
     namespace: screeps-system
     files:
       - ./config/config.yaml
+      - ./config/market.yaml
     options:
       disableNameSuffixHash: true
