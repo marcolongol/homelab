@@ -89,6 +89,13 @@ spec:
         globalMounts:
           - path: /screeps/config.yml
             subPath: config.yaml
+      market-config:
+        enabled: true
+        type: configMap
+        name: screeps-config
+        globalMounts:
+          - path: /screeps/market.js
+            subPath: market.yaml
       data:
         enabled: true
         storageClass: mayastor-nvmf
