@@ -2,13 +2,17 @@
 theme: dark
 server:
   address: tcp://0.0.0.0:9091
-  disable_healthcheck: true
+  disable_healthcheck: false
 log:
   level: debug
 totp:
   disable: false
 webauthn:
   disable: true
+  display_name: Authelia
+  attestation_conveyance_preference: none
+  user_verification: preferred
+  timeout: 30s
 authentication_backend:
   password_reset:
     disable: false
@@ -29,6 +33,9 @@ authentication_backend:
       mail: mail
       group_name: cn
       member_of: memberOf
+duo_api:
+  disable: false
+  enable_self_enrollment: true
 access_control:
   default_policy: deny
   networks:
