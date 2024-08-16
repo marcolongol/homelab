@@ -46,6 +46,11 @@ spec:
     - name: awx
       databases:
         - awx
+    - name: marcolongocloud
+      databases:
+        - dev_marcolongocloud
+        - test_marcolongocloud
+        - prod_marcolongocloud
   backups:
     pgbackrest:
       global:
