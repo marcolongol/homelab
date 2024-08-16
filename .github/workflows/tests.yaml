@@ -2,15 +2,13 @@ name: Tests
 
 on:
   push:
-    branches:
-      - main
+    branches: ["*"]
   pull_request:
-    branches:
-      - main
+    branches: ["*"]
 
 concurrency:
   cancel-in-progress: true
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
 
 env:
   packages_to_install: kubeconform yq kustomize
