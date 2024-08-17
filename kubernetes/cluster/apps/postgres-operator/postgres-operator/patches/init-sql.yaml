@@ -8,15 +8,16 @@ data:
     \c postgres
     GRANT ALL PRIVILEGES ON DATABASE authelia TO authelia;
     GRANT ALL PRIVILEGES ON DATABASE awx TO awx;
-    GRANT ALL PRIVILEGES ON DATABASE dev_marcolongocloud TO marcolongocloud;
-    GRANT ALL PRIVILEGES ON DATABASE test_marcolongocloud TO marcolongocloud;
-    GRANT ALL PRIVILEGES ON DATABASE prod_marcolongocloud TO marcolongocloud;
+    GRANT ALL PRIVILEGES ON DATABASE marcolongodb_dev TO marcolongodb;
+    GRANT ALL PRIVILEGES ON DATABASE marcolongodb_test TO marcolongodb;
+    GRANT ALL PRIVILEGES ON DATABASE marcolongodb TO marcolongodb;
     \c authelia
     GRANT ALL PRIVILEGES ON SCHEMA public TO authelia;
     \c awx
     GRANT ALL PRIVILEGES ON SCHEMA public TO awx;
-    \c dev_marcolongocloud
-    GRANT ALL PRIVILEGES ON SCHEMA public TO marcolongocloud;
-    \c test_marcolongocloud
-    GRANT ALL PRIVILEGES ON SCHEMA public TO marcolongocloud;
-    \c prod_marcolongocloud
+    \c marcolongodb_dev
+    GRANT ALL PRIVILEGES ON SCHEMA public TO marcolongodb;
+    \c marcolongodb_test
+    GRANT ALL PRIVILEGES ON SCHEMA public TO marcolongodb;
+    \c marcolongodb
+    GRANT ALL PRIVILEGES ON SCHEMA public TO marcolongodb;
