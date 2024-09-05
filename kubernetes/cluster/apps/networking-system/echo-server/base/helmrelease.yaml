@@ -36,8 +36,6 @@ spec:
               requests:
                 cpu: 5m
                 memory: 30Mi
-              limits:
-                memory: 30Mi
             probes:
               startup:
                 enabled: true
