@@ -13,7 +13,7 @@ spec:
   metadata:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "auth-system,awx-operator"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "auth-system,awx-operator,finance-system"
   patroni:
     dynamicConfiguration:
       synchronous_mode: true
@@ -51,6 +51,9 @@ spec:
         - marcolongodb_dev
         - marcolongodb_test
         - marcolongodb
+    - name: fireflyiii
+      databases:
+        - fireflyiii
   backups:
     pgbackrest:
       global:
