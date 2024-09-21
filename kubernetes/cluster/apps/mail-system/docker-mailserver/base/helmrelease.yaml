@@ -47,7 +47,7 @@ spec:
           roundcubemail:
             image:
               repository: roundcube/roundcubemail
-              tag: 1.6.8-apache
+              tag: 1.6.9-apache
             env:
               OVERRIDE_HOSTNAME: webmail.${SECRET_DOMAIN}
               ROUNDCUBE_DB_TYPE: sqlite
