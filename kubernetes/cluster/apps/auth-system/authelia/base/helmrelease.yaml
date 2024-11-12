@@ -105,7 +105,7 @@ spec:
             add_header Cache-Control "no-store";
             add_header Pragma "no-cache";
         hosts:
-          - host: &host auth.${SECRET_DOMAIN}
+          - host: &host auth.${SECRET_DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix

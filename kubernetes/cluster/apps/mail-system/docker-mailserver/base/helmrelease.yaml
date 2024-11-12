@@ -26,7 +26,7 @@ spec:
       retries: 5
   values:
     global:
-      hostname: "mail.${SECRET_DOMAIN}"
+      hostname: "mail.${SECRET_DOMAIN_0}"
     controllers:
       docker-mailserver:
         containers:
@@ -35,13 +35,13 @@ spec:
               repository: monogramm/autodiscover-email-settings
               tag: latest
             env:
-              OVERRIDE_HOSTNAME: autodiscover.${SECRET_DOMAIN}
-              COMPANY_NAME: "${SECRET_DOMAIN} Mail"
-              SUPPORT_URL: "https://autodiscover.${SECRET_DOMAIN}"
-              IMAP_HOST: mail.${SECRET_DOMAIN}
+              OVERRIDE_HOSTNAME: autodiscover.${SECRET_DOMAIN_0}
+              COMPANY_NAME: "${SECRET_DOMAIN_0} Mail"
+              SUPPORT_URL: "https://autodiscover.${SECRET_DOMAIN_0}"
+              IMAP_HOST: mail.${SECRET_DOMAIN_0}
               IMAP_PORT: "143"
               IMAP_SOCKET: "SSL"
-              SMTP_HOST: mail.${SECRET_DOMAIN}
+              SMTP_HOST: mail.${SECRET_DOMAIN_0}
               SMTP_PORT: "587"
               SMTP_SOCKET: "STARTTLS"
           roundcubemail:
@@ -49,12 +49,12 @@ spec:
               repository: roundcube/roundcubemail
               tag: 1.6.9-apache
             env:
-              OVERRIDE_HOSTNAME: webmail.${SECRET_DOMAIN}
+              OVERRIDE_HOSTNAME: webmail.${SECRET_DOMAIN_0}
               ROUNDCUBE_DB_TYPE: sqlite
               ROUNDCUBEMAIL_SKIN: elastic
-              ROUNDCUBEMAIL_DEFAULT_HOST: tls://mail.${SECRET_DOMAIN}
+              ROUNDCUBEMAIL_DEFAULT_HOST: tls://mail.${SECRET_DOMAIN_0}
               ROUNDCUBEMAIL_DEFAULT_PORT: 143
-              ROUNDCUBEMAIL_SMTP_SERVER: tls://mail.${SECRET_DOMAIN}
+              ROUNDCUBEMAIL_SMTP_SERVER: tls://mail.${SECRET_DOMAIN_0}
               ROUNDCUBEMAIL_SMTP_PORT: 587
           docker-mailserver:
             image:
@@ -90,8 +90,8 @@ spec:
               LDAP_QUERY_FILTER: "(&(objectClass=inetOrgPerson)(|(uid=%u)(mail=%u)))"
               LDAP_SERVER_HOST: ldap://lldap.auth-system.svc.cluster.local
               LOG_LEVEL: debug
-              OVERRIDE_HOSTNAME: mail.${SECRET_DOMAIN}
-              POSTMASTER_ADDRESS: postmaster@${SECRET_DOMAIN}
+              OVERRIDE_HOSTNAME: mail.${SECRET_DOMAIN_0}
+              POSTMASTER_ADDRESS: postmaster@${SECRET_DOMAIN_0}
               SPAMASSASSIN_SPAM_TO_INBOX: 1
               SPOOF_PROTECTION: 0
               SSL_CERT_PATH: /tmp/dms/custom-certs/public.crt
@@ -148,21 +148,21 @@ spec:
         enabled: true
         className: nginx
         hosts:
-          - host: &host1 autoconfig.${SECRET_DOMAIN}
+          - host: &host1 autoconfig.${SECRET_DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix
                 service:
                   identifier: main
                   port: https
-          - host: &host2 autodiscover.${SECRET_DOMAIN}
+          - host: &host2 autodiscover.${SECRET_DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix
                 service:
                   identifier: main
                   port: https
-          - host: &host3 webmail.${SECRET_DOMAIN}
+          - host: &host3 webmail.${SECRET_DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix

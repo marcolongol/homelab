@@ -61,7 +61,7 @@ spec:
         enabled: true
         className: nginx
         hosts:
-          - host: &host echo-server.${SECRET_DOMAIN}
+          - host: &host echo-server.${SECRET_DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix

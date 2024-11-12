@@ -19,7 +19,7 @@ spec:
               key: api-key
         selector:
           dnsZones:
-            - ${SECRET_DOMAIN}
+            - ${SECRET_DOMAIN_0}
 
 ---
 # yaml-language-server: $schema=https://schemas.budimanjojo.com/cert-manager.io/clusterissuer_v1.json
@@ -42,7 +42,7 @@ spec:
               key: api-key
         selector:
           dnsZones:
-            - ${SECRET_DOMAIN}
+            - ${SECRET_DOMAIN_0}
 
 ---
 # yaml-language-server: $schema=https://schemas.budimanjojo.com/cert-manager.io/clusterissuer_v1.json

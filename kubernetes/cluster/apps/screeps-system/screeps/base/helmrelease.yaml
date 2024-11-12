@@ -26,7 +26,7 @@ spec:
       retries: 5
   values:
     global:
-      hostname: "screeps.${SECRET_DOMAIN}"
+      hostname: "screeps.${SECRET_DOMAIN_0}"
     controllers:
       main:
         initContainers:
