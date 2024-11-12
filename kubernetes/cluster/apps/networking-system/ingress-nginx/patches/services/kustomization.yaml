@@ -6,3 +6,4 @@ resources:
   - ./opnsense.yaml
   - ./portainer.yaml
   - ./nexus.yaml
+  - ./registry.yaml
