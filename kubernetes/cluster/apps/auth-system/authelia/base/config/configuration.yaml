@@ -43,11 +43,11 @@ access_control:
       networks:
         - 10.0.0.0/8
   rules:
-    - domain: "*.${SECRET_DOMAIN}"
+    - domain: "*.${SECRET_DOMAIN_0}"
       networks:
         - internal
       policy: two_factor
-    - domain: "*.${SECRET_DOMAIN}"
+    - domain: "*.${SECRET_DOMAIN_0}"
       policy: two_factor
 session:
   name: authelia_session
@@ -55,9 +55,9 @@ session:
   inactivity: 15m
   remember_me: 1M
   cookies:
-    - domain: ${SECRET_DOMAIN}
-      authelia_url: https://auth.${SECRET_DOMAIN}
-      default_redirection_url: https://${SECRET_DOMAIN}
+    - domain: ${SECRET_DOMAIN_0}
+      authelia_url: https://auth.${SECRET_DOMAIN_0}
+      default_redirection_url: https://${SECRET_DOMAIN_0}
 regulation:
   max_retries: 3
   find_time: 2m
@@ -65,6 +65,6 @@ regulation:
 notifier:
   disable_startup_check: false
   smtp:
-    address: submission://mail.${SECRET_DOMAIN}:587
-    username: admin@${SECRET_DOMAIN}
-    sender: Authelia Admin <admin@${SECRET_DOMAIN}>
+    address: submission://mail.${SECRET_DOMAIN_0}:587
+    username: admin@${SECRET_DOMAIN_0}
+    sender: Authelia Admin <admin@${SECRET_DOMAIN_0}>
