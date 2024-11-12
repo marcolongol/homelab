@@ -15,6 +15,6 @@ spec:
   postgres_configuration_secret: pgo-cluster-pguser-awx-transformed
   ingress_type: ingress
   ingress_class_name: nginx
-  ingress_tls_secret: ingress-nginx-prod
+  ingress_tls_secret: ${SECRET_DOMAIN_0}-prod
   hostname: "awx.${SECRET_DOMAIN_0}"
   no_log: false

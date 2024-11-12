@@ -66,6 +66,6 @@ spec:
           hosts:
             - hubble.${SECRET_DOMAIN_0}
           tls:
-            - secretName: ingress-nginx-prod
+            - secretName: ${SECRET_DOMAIN_0}-prod
               hosts:
                 - hubble.${SECRET_DOMAIN_0}
