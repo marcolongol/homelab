@@ -174,12 +174,12 @@ spec:
               - *host1
               - *host2
               - *host3
-            secretName: ingress-nginx-prod
+            secretName: ${SECRET_DOMAIN_0}-prod
     persistence:
       tls:
         enabled: true
         type: secret
-        name: ingress-nginx-prod
+        name: ${SECRET_DOMAIN_0}-prod
         globalMounts:
           - path: /tmp/dms/custom-certs/private.key
             subPath: tls.key

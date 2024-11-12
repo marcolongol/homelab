@@ -3,7 +3,7 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: &certName ingress-nginx-prod
+  name: &certName ${SECRET_DOMAIN_0}-prod
   namespace: networking-system
 spec:
   secretName: *certName
@@ -14,7 +14,7 @@ spec:
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
       reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "^(?!networking-system$).*$"
   issuerRef:
-    name: letsencrypt-prod
+    name: ${SECRET_DOMAIN_0}-prod
     kind: ClusterIssuer
   dnsNames:
     - ${SECRET_DOMAIN_0}
@@ -25,7 +25,7 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: &certName ingress-nginx-staging
+  name: &certName ${SECRET_DOMAIN_0}-staging
   namespace: networking-system
 spec:
   secretName: *certName
@@ -36,7 +36,7 @@ spec:
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
       reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "^(?!networking-system$).*$"
   issuerRef:
-    name: letsencrypt-staging
+    name: ${SECRET_DOMAIN_0}-staging
     kind: ClusterIssuer
   dnsNames:
     - ${SECRET_DOMAIN_0}
@@ -47,7 +47,51 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: &certName ingress-nginx-selfsigned
+  name: &certName ${SECRET_DOMAIN_1}-prod
+  namespace: networking-system
+spec:
+  secretName: *certName
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ".*"
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "^(?!networking-system$).*$"
+  issuerRef:
+    name: ${SECRET_DOMAIN_1}-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - ${SECRET_DOMAIN_1}
+    - "*.${SECRET_DOMAIN_1}"
+
+---
+# yaml-language-server: $schema=https://schemas.budimanjojo.com/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: &certName ${SECRET_DOMAIN_1}-staging
+  namespace: networking-system
+spec:
+  secretName: *certName
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ".*"
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "^(?!networking-system$).*$"
+  issuerRef:
+    name: ${SECRET_DOMAIN_1}-staging
+    kind: ClusterIssuer
+  dnsNames:
+    - ${SECRET_DOMAIN_1}
+    - "*.${SECRET_DOMAIN_1}"
+
+---
+# yaml-language-server: $schema=https://schemas.budimanjojo.com/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: &certName ${SECRET_DOMAIN_0}-selfsigned
   namespace: networking-system
 spec:
   secretName: *certName
