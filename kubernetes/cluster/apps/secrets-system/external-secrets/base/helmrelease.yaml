@@ -1,0 +1,43 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app external-secrets
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: secrets-system
+  releaseName: *app
+  chart:
+    spec:
+      chart: external-secrets
+      version: 0.10.5
+      sourceRef:
+        kind: HelmRepository
+        name: external-secrets
+        namespace: flux-system
+      interval: 10m
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    installCRDs: true
+    image: &image
+      repository: ghcr.io/external-secrets/external-secrets
+    certController:
+      image: *image
+      serviceMonitor:
+        enabled: true
+        interval: 1m
+    webhook:
+      image: *image
+      serviceMonitor:
+        enabled: true
+        interval: 1m
+    serviceMonitor:
+      enabled: true
+      interval: 1m

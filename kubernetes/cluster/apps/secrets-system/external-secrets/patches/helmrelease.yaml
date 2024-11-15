@@ -1,0 +1,40 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app onepassword-connect
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: secrets-system
+  releaseName: *app
+  chart:
+    spec:
+      chart: connect
+      version: 1.16.0
+      sourceRef:
+        kind: HelmRepository
+        name: connect-helm-charts
+        namespace: flux-system
+      interval: 30m
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    connect:
+      ingress:
+        enabled: true
+        annotations:
+          nginx.ingress.kubernetes.io/whitelist-source-range: ${CONFIG_NGINX_WHITELIST}
+        ingressclassName: "nginx"
+        pathType: Prefix
+        hosts:
+          - host: &host "onepassword-connect.${SECRET_DOMAIN_0}"
+        tls:
+          - secretName: ${SECRET_DOMAIN_0}-prod
+            hosts:
+              - *host
