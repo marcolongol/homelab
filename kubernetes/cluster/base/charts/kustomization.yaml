@@ -7,9 +7,11 @@ resources:
   - ./awx-charts.yaml
   - ./bjw-s-charts.yaml
   - ./cilium.yaml
+  - ./connect-helm-charts.yaml
   - ./crunchydata-charts.yaml
   - ./csi-driver-smb.yaml
   - ./emberstack.yaml
+  - ./external-secrets.yaml
   - ./ingress-nginx.yaml
   - ./jetstack.yaml
   - ./kluctl.yaml
