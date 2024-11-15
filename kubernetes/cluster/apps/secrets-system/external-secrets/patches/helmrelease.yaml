@@ -28,8 +28,6 @@ spec:
     connect:
       ingress:
         enabled: true
-        annotations:
-          nginx.ingress.kubernetes.io/whitelist-source-range: ${CONFIG_NGINX_WHITELIST}
         ingressclassName: "nginx"
         pathType: Prefix
         hosts:
