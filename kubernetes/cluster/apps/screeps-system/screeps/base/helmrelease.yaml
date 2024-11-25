@@ -56,7 +56,7 @@ spec:
           screeps:
             image:
               repository: screepers/screeps-launcher
-              tag: v1.16.0
+              tag: v1.16.2
             envFrom:
               - secretRef:
                   name: screeps-env
