@@ -12,6 +12,7 @@ data:
     GRANT ALL PRIVILEGES ON DATABASE marcolongodb_dev TO marcolongodb;
     GRANT ALL PRIVILEGES ON DATABASE marcolongodb_test TO marcolongodb;
     GRANT ALL PRIVILEGES ON DATABASE marcolongodb TO marcolongodb;
+    GRANT ALL PRIVILEGES ON DATABASE unleash TO unleash;
     \c authelia
     GRANT ALL PRIVILEGES ON SCHEMA public TO authelia;
     \c awx
@@ -24,3 +25,5 @@ data:
     GRANT ALL PRIVILEGES ON SCHEMA public TO marcolongodb;
     \c marcolongodb
     GRANT ALL PRIVILEGES ON SCHEMA public TO marcolongodb;
+    \c unleash
+    GRANT ALL PRIVILEGES ON SCHEMA public TO unleash;
