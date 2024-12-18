@@ -13,7 +13,7 @@ spec:
   metadata:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "auth-system,awx-operator,finance-system"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "auth-system,awx-operator,finance-system,unleash-system"
   patroni:
     dynamicConfiguration:
       synchronous_mode: true
@@ -54,6 +54,9 @@ spec:
     - name: fireflyiii
       databases:
         - fireflyiii
+    - name: unleash
+      databases:
+        - unleash
   backups:
     pgbackrest:
       global:
