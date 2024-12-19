@@ -15,3 +15,21 @@ spec:
   wait: true
   dependsOn:
     - name: postgres-operator-patches
+
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: unleash-patches
+  namespace: flux-system
+spec:
+  path: ./kubernetes/cluster/apps/unleash-system/unleash/patches
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  interval: 30m
+  prune: true
+  wait: true
+  dependsOn:
+    - name: unleash-base
