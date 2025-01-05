@@ -51,9 +51,6 @@ spec:
         - marcolongodb_dev
         - marcolongodb_test
         - marcolongodb
-    - name: fireflyiii
-      databases:
-        - fireflyiii
     - name: unleash
       databases:
         - unleash
