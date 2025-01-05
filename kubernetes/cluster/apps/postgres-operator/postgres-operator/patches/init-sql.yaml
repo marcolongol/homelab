@@ -8,7 +8,6 @@ data:
     \c postgres
     GRANT ALL PRIVILEGES ON DATABASE authelia TO authelia;
     GRANT ALL PRIVILEGES ON DATABASE awx TO awx;
-    GRANT ALL PRIVILEGES ON DATABASE fireflyiii TO fireflyiii;
     GRANT ALL PRIVILEGES ON DATABASE marcolongodb_dev TO marcolongodb;
     GRANT ALL PRIVILEGES ON DATABASE marcolongodb_test TO marcolongodb;
     GRANT ALL PRIVILEGES ON DATABASE marcolongodb TO marcolongodb;
@@ -17,8 +16,6 @@ data:
     GRANT ALL PRIVILEGES ON SCHEMA public TO authelia;
     \c awx
     GRANT ALL PRIVILEGES ON SCHEMA public TO awx;
-    \c fireflyiii
-    GRANT ALL PRIVILEGES ON SCHEMA public TO fireflyiii;
     \c marcolongodb_dev
     GRANT ALL PRIVILEGES ON SCHEMA public TO marcolongodb;
     \c marcolongodb_test
