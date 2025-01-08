@@ -1,0 +1,90 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app homepage
+  namespace: homepage-system
+spec:
+  interval: 10m
+  targetNamespace: homepage-system
+  releaseName: *app
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    global:
+      hostname: "homepage.${SECRET_DOMAIN_0}"
+    controllers:
+      main:
+        replicas: 1
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/gethomepage/homepage
+              tag: v0.10.9@sha256:b6d732817572f9af99ec168b10641b8f7820f30cfa5a5cc5c68f1e291804bec8
+            envFrom:
+              - secretRef:
+                  name: homepage-secret
+            resources:
+              requests:
+                cpu: 15m
+                memory: 200M
+              limits:
+                memory: 2G
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 3000
+    ingress:
+      main:
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/whitelist-source-range: ${CONFIG_NGINX_WHITELIST}
+        hosts:
+          - host: &host "homepage.${SECRET_DOMAIN_0}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: ${SECRET_DOMAIN_0}-prod
+    persistence:
+      config:
+        type: configMap
+        name: homepage-config
+        globalMounts:
+          - subPath: bookmarks.yaml
+            path: /app/config/bookmarks.yaml
+          - subPath: docker.yaml
+            path: /app/config/docker.yaml
+          - subPath: kubernetes.yaml
+            path: /app/config/kubernetes.yaml
+          - subPath: services.yaml
+            path: /app/config/services.yaml
+          - subPath: settings.yaml
+            path: /app/config/settings.yaml
+          - subPath: widgets.yaml
+            path: /app/config/widgets.yaml
+    serviceAccount:
+      create: true
+      name: homepage

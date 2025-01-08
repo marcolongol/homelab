@@ -1,0 +1,23 @@
+---
+- Communication:
+    - Discord:
+        - icon: discord.png
+          href: "https://discord.com/app"
+    - Outlook:
+        - icon: https://raw.githubusercontent.com/joryirving/home-ops/main/docs/src/assets/icons/outlook.png
+          href: "https://outlook.com"
+- Media:
+    - YouTube:
+        - icon: youtube.png
+          href: "https://youtube.com/feed/subscriptions"
+    - Spotify:
+        - icon: spotify.png
+          href: spotify://user/12181958342?si=717d5a095d8e4750
+- Reading:
+    - Reddit:
+        - icon: reddit.png
+          href: "https://reddit.com"
+- Git:
+    - kubesearch:
+        - icon: kubernetes-dashboard.png
+          href: "https://kubesearch.dev/"

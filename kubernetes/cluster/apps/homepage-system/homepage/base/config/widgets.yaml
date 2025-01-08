@@ -1,0 +1,27 @@
+---
+- kubernetes:
+    cluster:
+      show: false
+      # cpu: true
+      # memory: true
+      # showLabel: true
+    nodes:
+      show: true
+      cpu: true
+      memory: true
+      showLabel: true
+- search:
+    provider: google
+    focus: true
+    showSearchSuggestions: true
+    target: _blank
+- openweathermap:
+    label: Seattle
+    latitude: 47.6062
+    longitude: -122.3321
+    units: metric
+    provider: openweathermap
+    apiKey: ${SECRET_OPENWEATHERMAP_API_KEY}
+    cache: 5
+    format:
+      maximumFractionDigits: 1
