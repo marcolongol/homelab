@@ -1,3 +1,11 @@
 ./kubernetes/cluster/apps/auth-system/authelia/base/config/configuration.yaml
 ./kubernetes/cluster/apps/screeps-system/screeps/base/config/config.yaml
 ./kubernetes/cluster/apps/screeps-system/screeps/base/config/market.yaml
+./kubernetes/cluster/apps/homepage-system/homepage/base/config/custom.css
+./kubernetes/cluster/apps/homepage-system/homepage/base/config/custom.js
+./kubernetes/cluster/apps/homepage-system/homepage/base/config/bookmarks.yaml
+./kubernetes/cluster/apps/homepage-system/homepage/base/config/docker.yaml
+./kubernetes/cluster/apps/homepage-system/homepage/base/config/kubernetes.yaml
+./kubernetes/cluster/apps/homepage-system/homepage/base/config/services.yaml
+./kubernetes/cluster/apps/homepage-system/homepage/base/config/settings.yaml
+./kubernetes/cluster/apps/homepage-system/homepage/base/config/widgets.yaml
