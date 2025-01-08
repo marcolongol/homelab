@@ -1,0 +1,7 @@
+- Utilities:
+    - Speedtest:
+        icon: speedtest-tracker
+        widget:
+          type: speedtest
+          url: speedtest.${SECRET_DOMAIN_0}
+          bitratePrecision: 3

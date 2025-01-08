@@ -1,0 +1,30 @@
+---
+title: marcolongo.cloud - Homepage
+theme: dark
+color: slate
+headerStyle: underlined
+cardBlur: sm
+iconStyle: theme
+target: _blank
+background:
+  image: https://picsum.photos/1920/1080?random=1
+  blur: sm
+  opacity: 50
+quicklaunch:
+  searchDescriptions: true
+  hideInternetSearch: true
+  showSearchSuggestions: true
+  hideVisitURL: true
+layout:
+  Utilities:
+    icon: it-tools-light
+    style: row
+    columns: 2
+  Communication:
+    style: columns
+  Media:
+    style: columns
+  Reading:
+    style: columns
+  Git:
+    style: columns
