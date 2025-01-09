@@ -1,0 +1,72 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app speedtest-tracker
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: speedtest-system
+  releaseName: *app
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    controllers:
+      main:
+        containers:
+          speedtest-tracker:
+            image:
+              repository: lscr.io/linuxserver/speedtest-tracker
+              tag: 1.0.3
+            envFrom:
+              - secretRef:
+                  name: speedtest-tracker-secret
+            env:
+              - name: SPEEDTEST_SCHEDULE
+                value: "0 * */30 * *"
+              - name: PRUNE_RESULTS_OLDER_THAN
+                value: "90"
+              - name: PUBLIC_DASHBOARD
+                value: "true"
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 256Mi
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 80
+    ingress:
+      main:
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/whitelist-source-range: ${CONFIG_NGINX_WHITELIST}
+        hosts:
+          - host: &host speedtest.${SECRET_DOMAIN_0}
+            paths:
+              - path: /
+                service:
+                  identifier: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+            secretName: ${SECRET_DOMAIN_0}-prod
