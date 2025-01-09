@@ -37,7 +37,7 @@ spec:
                   name: speedtest-tracker-secret
             env:
               - name: SPEEDTEST_SCHEDULE
-                value: "0 * */30 * *"
+                value: "*/30 * * * *"
               - name: PRUNE_RESULTS_OLDER_THAN
                 value: "90"
               - name: PUBLIC_DASHBOARD
