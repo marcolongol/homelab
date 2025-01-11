@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spf-config
+  namespace: mail-system
+data:
+  policyd-spf.conf: |
+    debugLevel = 1
+    TestOnly = 1
+    HELO_reject = Fail
+    Mail_From_reject = Fail
+    PermError_reject = False
+    TempError_Defer = False
+    skip_addresses = 127.0.0.0/8,::ffff:127.0.0.0/104,::1
+    Whitelist =  ${CONFIG_NGINX_WHITELIST}
+    # Domain_Whitelist = mx1.not-example.com,mx2.not-example.com
+    Reason_Message = Message {rejectdefer} due to: {spf}.
