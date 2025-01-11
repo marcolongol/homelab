@@ -17,3 +17,4 @@ spec:
     - name: lldap-base
     - name: docker-mailserver-base
     - name: postgres-operator-patches
+    - name: external-secrets-patches
