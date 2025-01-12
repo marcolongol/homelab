@@ -44,18 +44,60 @@ duo_api:
   enable_self_enrollment: true
 
 access_control:
-  default_policy: two_factor
+  default_policy: deny
   networks:
     - name: internal
       networks:
         - 10.0.0.0/8
   rules:
-    - domain: "*.${SECRET_DOMAIN_0}"
-      networks:
-        - internal
-      policy: one_factor
-    - domain: "*.${SECRET_DOMAIN_0}"
+    - domain: "money.${SECRET_DOMAIN_0}"
       policy: two_factor
+      subject:
+        - "group:actual_user"
+
+    - domain: "ldap.${SECRET_DOMAIN_0}"
+      policy: two_factor
+      subject:
+        - "group:lldap_user"
+        - "group:lldap_admin"
+
+    - domain: "webmail.${SECRET_DOMAIN_0}"
+      policy: two_factor
+      subject:
+        - "group:webmail_user"
+
+    - domain: "minio.${SECRET_DOMAIN_0}"
+      policy: two_factor
+      subject:
+        - "group:minio_readonly"
+        - "group:minio_user"
+        - "group:minio_admin"
+
+    - domain: "unleash.${SECRET_DOMAIN_0}"
+      policy: two_factor
+      subject:
+        - "group:unleash_user"
+
+    - domain: "hubble.${SECRET_DOMAIN_0}"
+      policy: two_factor
+      subject:
+        - "group:hubble_user"
+
+    - domain: "homepage.${SECRET_DOMAIN_0}"
+      policy: one_factor
+
+    - domain:
+        - auth.${SECRET_DOMAIN_0}
+        - speedtest.${SECRET_DOMAIN_0}
+        - autoconfig.${SECRET_DOMAIN_0}
+        - autodiscover.${SECRET_DOMAIN_0}
+        - echo-server.${SECRET_DOMAIN_0}
+      policy: bypass
+
+    - domain: "*.${SECRET_DOMAIN_0}"
+      policy: bypass
+      methods:
+        - OPTIONS
 
 session:
   name: authelia_session
