@@ -29,6 +29,10 @@ spec:
       hostname: "screeps.${SECRET_DOMAIN_0}"
     controllers:
       main:
+        replicas: 1
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
         initContainers:
           init-permissions:
             image:

@@ -29,6 +29,10 @@ spec:
       hostname: "minio.${SECRET_DOMAIN_0}"
     controllers:
       minio:
+        replicas: 1
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
