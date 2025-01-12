@@ -1,0 +1,120 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app minio
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: storage-system
+  releaseName: *app
+  chart:
+    spec:
+      chart: app-template
+      version: 3.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 10m
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    global:
+      hostname: "minio.${SECRET_DOMAIN_0}"
+    controllers:
+      minio:
+        containers:
+          app:
+            image:
+              repository: quay.io/minio/minio
+              tag: RELEASE.2024-12-18T13-15-44Z
+            env:
+              MINIO_UPDATE: "off"
+              MINIO_BROWSER_REDIRECT_URL: https://minio.${SECRET_DOMAIN_0}
+              MINIO_SERVER_URL: https://s3.${SECRET_DOMAIN_0}
+              MINIO_API_CORS_ALLOW_ORIGIN: https://minio.${SECRET_DOMAIN_0},https://s3.${SECRET_DOMAIN_0}
+              MINIO_IDENTITY_OPENID_DISPLAY_NAME: Authelia
+              MINIO_IDENTITY_OPENID_CONFIG_URL: https://auth.${SECRET_DOMAIN_0}/.well-known/openid-configuration
+              MINIO_IDENTITY_OPENID_SCOPES: openid,profile,email,groups
+              MINIO_IDENTITY_OPENID_CLAIM_NAME: groups
+              # MINIO_IDENTITY_OPENID_REDIRECT_URI: https://minio.${SECRET_DOMAIN_0}/oauth_callback
+            envFrom:
+              - secretRef:
+                  name: minio-secret
+            args: ["server", "/data", "--console-address", ":9001"]
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /minio/health/live
+                    port: &api-port 9000
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            resources:
+              requests:
+                memory: 100Mi
+                cpu: 50m
+              limits:
+                memory: 750Mi
+    service:
+      app:
+        controller: minio
+        ports:
+          http:
+            primary: true
+            port: 9001
+          api:
+            port: *api-port
+    ingress:
+      app:
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/whitelist-source-range: ${CONFIG_NGINX_WHITELIST}
+        hosts:
+          - host: &app-host minio.${SECRET_DOMAIN_0}
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *app-host
+            secretName: ${SECRET_DOMAIN_0}-prod
+      s3:
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/proxy-connect-timeout: "180"
+          nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+          nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+        hosts:
+          - host: &api-host s3.${SECRET_DOMAIN_0}
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: api
+        tls:
+          - hosts:
+              - *api-host
+            secretName: ${SECRET_DOMAIN_0}-prod
+    persistence:
+      data:
+        enabled: true
+        storageClass: smb
+        accessMode: ReadWriteMany
+        size: 10Gi
+        globalMounts:
+          - path: /data
+        retain: false
