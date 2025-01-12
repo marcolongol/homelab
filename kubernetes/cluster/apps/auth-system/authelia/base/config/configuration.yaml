@@ -145,3 +145,14 @@ identity_providers:
         scopes: [openid, profile, email, groups]
         userinfo_signed_response_alg: none
         token_endpoint_auth_method: client_secret_post
+
+      - client_name: Kubernetes API
+        client_id: '{{ env "KUBERNETES_OIDC_CLIENT_ID" }}'
+        client_secret: '{{ env "KUBERNETES_OIDC_CLIENT_HASHED_SECRET" }}'
+        public: false
+        grant_types: [authorization_code, refresh_token]
+        pre_configured_consent_duration: 1y
+        response_types:
+          ["code", "code id_token", "code token", "code id_token token"]
+        redirect_uris: ["http://localhost:8000"]
+        scopes: [openid, profile, email, groups, offline_access]

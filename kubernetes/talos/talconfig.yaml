@@ -67,6 +67,16 @@ controlPlane:
         path: /machine/sysctls
         value:
           vm.nr_hugepages: 1024
+    - |-
+      - op: add
+        path: /cluster/apiServer/extraArgs
+        value:
+          oidc-issuer-url: ${KUBERNETES_OIDC_ISSUER_URL}
+          oidc-client-id: ${KUBERNETES_OIDC_CLIENT_ID}
+          oidc-username-claim: email
+          oidc-username-prefix: "oidc:"
+          oidc-groups-claim: groups
+          oidc-groups-prefix: "oidc:"
   nodeLabels:
     openebs.io/engine: mayastor
 
