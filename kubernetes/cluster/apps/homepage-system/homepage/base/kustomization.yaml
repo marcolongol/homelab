@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   - ./rbac.yaml
   - ./helmrelease.yaml
-  - ./externalsecret.yaml
 configMapGenerator:
   - name: homepage-config
     namespace: homepage-system
