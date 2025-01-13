@@ -5,3 +5,4 @@ resources:
   - ./flux-system
   - ./config
   - ./apps.yaml
+  - ./rbac.yaml
