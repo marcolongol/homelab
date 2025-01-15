@@ -1,0 +1,67 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: &app minecraft
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: minecraft-system
+  releaseName: *app
+  chart:
+    spec:
+      chart: minecraft
+      version: 4.23.6
+      sourceRef:
+        kind: HelmRepository
+        name: minecraft-server-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    global:
+      hostname: "minecraft.${SECRET_DOMAIN_0}"
+    image:
+      repository: ghcr.io/itzg/minecraft-server
+      tag: java21
+    resources:
+      requests:
+        cpu: 500m
+        memory: 4Gi
+      limits:
+        memory: 4Gi
+    persistence:
+      dataDir:
+        enabled: true
+    minecraftServer:
+      eula: true
+      version: 1.18.2
+      type: PAPER
+      forceReDownload: true
+      jvmXXOpts: "-XX:MaxRAMPercentage=75"
+      downloadModpackUrl: "https://api.feed-the-beast.com/v1/modpacks/public/modpack/100/100013/server/linux"
+      memory: 4096M
+      difficulty: normal
+      spawnProtection: 0
+      maxTickTime: -1
+      gameMode: survival
+      pvp: true
+      onlineMode: true
+      ops: "chaosface"
+      worldSaveName: KubeMine
+      viewDistance: 12
+      rcon:
+        enabled: true
+        serviceType: ClusterIP
+      serviceType: ClusterIP
+  valuesFrom:
+    - kind: Secret
+      name: minecraft-secret
+      valuesKey: RCON_PASSWORD
+      targetPath: minecraftServer.rcon.password
