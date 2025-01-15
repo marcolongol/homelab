@@ -35,6 +35,7 @@ spec:
       "389": "auth-system/lldap:389"
       "5432": "postgres-operator/pgo-cluster-ha:5432"
       "21025": "screeps-system/screeps:21025"
+      "25565": "minecraft-system/minecraft-minecraft:25565"
     controller:
       kind: DaemonSet
       hostNetwork: true

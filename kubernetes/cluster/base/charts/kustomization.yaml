@@ -19,5 +19,6 @@ resources:
   - ./kubernetes-dashboard.yaml
   - ./mayastor.yaml
   - ./metrics-server.yaml
+  - ./minecraft-server-charts.yaml
   - ./stakater.yaml
   - ./unleash.yaml
