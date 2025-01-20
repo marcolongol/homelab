@@ -50,6 +50,11 @@ access_control:
       networks:
         - 10.0.0.0/8
   rules:
+    - domain: "awx.${SECRET_DOMAIN_0}"
+      policy: two_factor
+      subject:
+        - "group:awx_user"
+
     - domain: "money.${SECRET_DOMAIN_0}"
       policy: two_factor
       subject:
