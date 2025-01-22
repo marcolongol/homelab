@@ -5,3 +5,4 @@ resources:
   - ./namespace.yaml
   - ./lldap/kustomization-fluxCRD.yaml
   - ./authelia/kustomization-fluxCRD.yaml
+  - ./oauth2-proxy/kustomization-fluxCRD.yaml

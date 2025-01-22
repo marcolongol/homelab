@@ -20,5 +20,6 @@ resources:
   - ./mayastor.yaml
   - ./metrics-server.yaml
   - ./minecraft-server-charts.yaml
+  - ./oauth2-proxy.yaml
   - ./stakater.yaml
   - ./unleash.yaml

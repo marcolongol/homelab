@@ -1,0 +1,65 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app oauth2-proxy
+  namespace: flux-system
+spec:
+  interval: 10m
+  targetNamespace: auth-system
+  releaseName: *app
+  chart:
+    spec:
+      chart: oauth2-proxy
+      version: 7.10.2
+      sourceRef:
+        kind: HelmRepository
+        name: oauth2-proxy-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    remediation:
+      retries: 5
+  upgrade:
+    remediation:
+      retries: 5
+  values:
+    image:
+      repository: quay.io/oauth2-proxy/oauth2-proxy
+    config:
+      existingSecret: oauth2-proxy-secret
+      configFile: |
+        auth_logging = true
+        cookie_domains = ".${SECRET_DOMAIN_0}"
+        cookie_secure = true
+        email_domains = [ "*" ]
+        oidc_issuer_url = "https://auth.${SECRET_DOMAIN_0}"
+        pass_access_token = true
+        pass_authorization_header = true
+        pass_basic_auth = true
+        pass_user_headers = true
+        provider = "oidc"
+        provider_display_name = "Authelia"
+        reverse_proxy = true
+        scope = "openid email profile"
+        session_store_type = "cookie"
+        set_authorization_header = true
+        skip_provider_button = true
+        ssl_insecure_skip_verify = true
+        ssl_upstream_insecure_skip_verify = true
+        upstreams = [ "https://kubernetes-dashboard-kong-proxy.monitoring-system.svc.cluster.local:443" ]
+        whitelist_domains = ".${SECRET_DOMAIN_0}"
+    ingress:
+      enabled: true
+      className: nginx
+      path: /
+      pathType: ImplementationSpecific
+      hosts:
+        - &host dashboard.${SECRET_DOMAIN_0}
+      annotations:
+        nginx.ingress.kubernetes.io/whitelist-source-range: ${CONFIG_NGINX_WHITELIST}
+      tls:
+        - secretName: ${SECRET_DOMAIN_0}-prod
+          hosts:
+            - *host
