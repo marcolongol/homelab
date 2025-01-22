@@ -61,4 +61,4 @@ spec:
       parameters:
         repl: 3
     io_engine:
-      cpuCount: 1
+      cpuCount: 2
