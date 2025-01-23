@@ -93,7 +93,8 @@ spec:
             secretName: ${SECRET_DOMAIN_0}-prod
     persistence:
       data:
-        enabled: true
-        existingClaim: lldap-data
+        storageClass: mayastor-nvmf
+        accessMode: ReadWriteOnce
+        size: 5Gi
         globalMounts:
           - path: /data
