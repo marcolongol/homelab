@@ -9,11 +9,7 @@ helmCharts:
     releaseName: kubelet-csr-approver
     namespace: kube-system
     valuesInline:
-      providerRegex: |
-        ^(talos0\d)$
-      providerIpPrefixes:
-        - 10.0.0.0/24
-      bypassDnsResolution: true
+      providerRegex: ^talos\d+$
 commonAnnotations:
   meta.helm.sh/release-name: kubelet-csr-approver
   meta.helm.sh/release-namespace: kube-system

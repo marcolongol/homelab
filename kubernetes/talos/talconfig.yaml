@@ -1,6 +1,6 @@
 ---
 clusterName: talos-cluster
-talosVersion: 1.9.1
+talosVersion: 1.9.0
 kubernetesVersion: v1.31.0
 endpoint: https://10.0.0.200:6443
 allowSchedulingOnMasters: true
@@ -8,10 +8,6 @@ cniConfig:
   name: none
 
 patches:
-  - |-
-    cluster:
-      proxy:
-        disabled: true
   - |-
     machine:
       kubelet:
