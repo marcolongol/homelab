@@ -87,4 +87,3 @@ spec:
         size: 5Gi
         globalMounts:
           - path: /data
-        retain: false
