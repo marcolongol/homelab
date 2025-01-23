@@ -15,6 +15,7 @@ spec:
   wait: true
   dependsOn:
     - name: postgres-operator-patches
+    - name: external-secrets-patches
 
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
