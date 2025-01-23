@@ -82,7 +82,7 @@ spec:
             secretName: ${SECRET_DOMAIN_0}-prod
     persistence:
       data:
-        storageClass: smb
+        storageClass: mayastor-nvmf
         accessMode: ReadWriteOnce
         size: 5Gi
         globalMounts:
