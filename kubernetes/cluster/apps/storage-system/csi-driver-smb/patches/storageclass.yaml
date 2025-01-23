@@ -4,6 +4,7 @@ kind: StorageClass
 metadata:
   name: smb
 provisioner: smb.csi.k8s.io
+reclaimPolicy: Retain
 parameters:
   source: //u396144-sub4.your-storagebox.de/u396144-sub4
   csi.storage.k8s.io/provisioner-secret-name: smbcreds
