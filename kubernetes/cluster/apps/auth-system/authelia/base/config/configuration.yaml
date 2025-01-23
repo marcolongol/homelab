@@ -162,6 +162,7 @@ identity_providers:
         public: false
         grant_types: [authorization_code, refresh_token]
         pre_configured_consent_duration: 1y
+        consent_mode: implicit
         response_types:
           ["code", "code id_token", "code token", "code id_token token"]
         redirect_uris: ["http://localhost:8000"]
@@ -173,6 +174,7 @@ identity_providers:
         public: false
         authorization_policy: two_factor
         pre_configured_consent_duration: 1y
+        consent_mode: implicit
         redirect_uris:
           [
             "https://dashboard.${SECRET_DOMAIN_0}/oauth2/callback",
@@ -184,7 +186,7 @@ identity_providers:
         audience:
           - '{{ env "KUBERNETES_OIDC_CLIENT_ID" }}'
           - '{{ env "OAUTH2_PROXY_OIDC_CLIENT_ID" }}'
-        requested_audience_mode: explicit
+        requested_audience_mode: implicit
 
       - client_name: AWX
         client_id: '{{ env "AWX_OIDC_CLIENT_ID" }}'
