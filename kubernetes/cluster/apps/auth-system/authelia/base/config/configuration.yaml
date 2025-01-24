@@ -165,11 +165,10 @@ identity_providers:
         consent_mode: implicit
         response_types:
           ["code", "code id_token", "code token", "code id_token token"]
-        redirect_uris:
-          [
+        redirect_uris: [
             "http://localhost:8000",
             "https://dashboard.${SECRET_DOMAIN_0}/oauth2/callback",
-            "https://openidconnect.net/callback",
+            # "https://openidconnect.net/callback",
           ]
         scopes: [openid, profile, email, groups, offline_access]
 
