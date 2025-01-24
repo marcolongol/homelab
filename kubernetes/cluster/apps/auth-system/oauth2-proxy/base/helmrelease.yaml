@@ -42,7 +42,7 @@ spec:
         provider = "oidc"
         provider_display_name = "Authelia"
         reverse_proxy = true
-        scope = "openid email profile"
+        scope = "openid profile email groups"
         session_store_type = "cookie"
         set_authorization_header = true
         skip_provider_button = true
