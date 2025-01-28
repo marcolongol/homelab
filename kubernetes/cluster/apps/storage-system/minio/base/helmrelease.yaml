@@ -120,9 +120,9 @@ spec:
     persistence:
       data:
         enabled: true
-        storageClass: smb
-        accessMode: ReadWriteMany
-        size: 10Gi
+        storageClass: mayastor-nvmf
+        accessMode: ReadWriteOnce
+        size: 100Gi
         globalMounts:
           - path: /data
         retain: false
