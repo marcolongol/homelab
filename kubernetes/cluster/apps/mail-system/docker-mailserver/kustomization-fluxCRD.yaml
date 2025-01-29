@@ -13,3 +13,22 @@ spec:
   interval: 30m
   prune: true
   wait: true
+
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: docker-mailserver-patches
+  namespace: flux-system
+spec:
+  path: ./kubernetes/cluster/apps/mail-system/docker-mailserver/patches
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  interval: 30m
+  prune: true
+  wait: true
+  dependsOn:
+    - name: docker-mailserver-base
+    - name: volsync-base

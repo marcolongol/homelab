@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/volsync.backube/replicationsource_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: docker-mailserver-mail-data
+  namespace: mail-system
+spec:
+  sourcePVC: docker-mailserver-mail-data
+  trigger:
+    schedule: "0 0 * * *" # daily at midnight
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 7
+    storageClassName: mayastor-nvmf-thin
+    repository: restic-config-mailserver
+    retain:
+      daily: 7
