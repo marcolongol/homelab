@@ -13,3 +13,5 @@ spec:
   interval: 30m
   prune: true
   wait: true
+  dependsOn:
+    - name: volsync-base
