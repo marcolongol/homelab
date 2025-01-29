@@ -14,5 +14,8 @@ spec:
     pruneIntervalDays: 7
     storageClassName: mayastor-nvmf-thin
     repository: restic-config-mailserver
+    moverSecurityContext:
+      runAsUser: 5000
+      runAsGroup: 5000
     retain:
       daily: 7
