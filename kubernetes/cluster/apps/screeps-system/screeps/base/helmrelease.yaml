@@ -100,7 +100,7 @@ spec:
         globalMounts:
           - path: /screeps/market.js
             subPath: market.yaml
-      data:
+      db:
         enabled: true
         storageClass: mayastor-nvmf
         accessMode: ReadWriteOnce
@@ -108,7 +108,7 @@ spec:
         globalMounts:
           - path: /data
         retain: false
-      screeps-data:
+      screeps:
         enabled: true
         storageClass: mayastor-nvmf
         accessMode: ReadWriteOnce
