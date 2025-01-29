@@ -7,7 +7,7 @@ metadata:
   namespace: screeps-system
 spec:
   interval: 1h
-  serviceAccountName: default
+  serviceAccountName: screeps
   prune: true
   matrix:
     - name: secret
