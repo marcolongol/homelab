@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/marcolongol/CRDs-catalog/develop/templates.kluctl.io/objecttemplate_v1alpha1.json
+apiVersion: templates.kluctl.io/v1alpha1
+kind: ObjectTemplate
+metadata:
+  name: restic-config-screeps
+  namespace: screeps-system
+spec:
+  interval: 1h
+  serviceAccountName: default
+  prune: true
+  matrix:
+    - name: secret
+      object:
+        ref:
+          apiVersion: v1
+          kind: Secret
+          name: restic-config
+  templates:
+    - object:
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: restic-config-screeps
+        stringData:
+          RESTIC_REPOSITORY: "{{ matrix.secret.data.RESTIC_REPOSITORY | b64decode }}/screeps"
+          RESTIC_PASSWORD: "{{ matrix.secret.data.RESTIC_PASSWORD | b64decode }}"
+          AWS_ACCESS_KEY_ID: "{{ matrix.secret.data.AWS_ACCESS_KEY_ID | b64decode }}"
+          AWS_SECRET_ACCESS_KEY: "{{ matrix.secret.data.AWS_SECRET_ACCESS_KEY | b64decode }}"

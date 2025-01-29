@@ -13,6 +13,6 @@ spec:
     copyMethod: Snapshot
     pruneIntervalDays: 7
     storageClassName: mayastor-nvmf-thin
-    repository: restic-config
+    repository: restic-config-screeps
     retain:
       daily: 7
