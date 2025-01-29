@@ -4,8 +4,6 @@ kind: Kustomization
 resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
-  - ./objecttemplate.yaml
-  - ./replicationsource.yaml
 configMapGenerator:
   - name: screeps-config
     namespace: screeps-system

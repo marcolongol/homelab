@@ -7,7 +7,7 @@ metadata:
   namespace: screeps-system
 spec:
   interval: 1h
-  serviceAccountName: screeps
+  serviceAccountName: volsync
   prune: true
   matrix:
     - name: secret
