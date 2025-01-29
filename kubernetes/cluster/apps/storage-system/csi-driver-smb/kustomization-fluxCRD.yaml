@@ -13,6 +13,8 @@ spec:
   interval: 30m
   prune: true
   wait: true
+  dependsOn:
+    - name: external-secrets-patches
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
