@@ -33,5 +33,8 @@ spec:
     pruneIntervalDays: 7
     storageClassName: mayastor-nvmf-thin
     repository: restic-config-screeps-db
+    moverSecurityContext:
+      runAsUser: 999
+      runAsGroup: 999
     retain:
       daily: 7
