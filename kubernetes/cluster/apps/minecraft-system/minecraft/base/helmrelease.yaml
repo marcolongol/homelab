@@ -42,6 +42,8 @@ spec:
     envFrom:
       - secretRef:
           name: minecraft-secret
+      - configMapRef:
+          name: minecraft-config
     minecraftServer:
       eula: true
       version: 1.21.1
