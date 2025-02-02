@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/volsync.backube/replicationsource_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: minecraft-datadir
+  namespace: minecraft-system
+spec:
+  sourcePVC: minecraft-minecraft-datadir
+  trigger:
+    schedule: "0 0 * * *" # daily at midnight
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 7
+    storageClassName: mayastor-nvmf-thin
+    repository: restic-config-minecraft
+    moverSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 2000
+    retain:
+      daily: 7
