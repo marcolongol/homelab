@@ -33,7 +33,7 @@ spec:
           main:
             image:
               repository: unleashorg/unleash-server
-              tag: 6.7.1
+              tag: 6.7.2
             resources:
               requests:
                 cpu: 15m
