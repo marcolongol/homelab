@@ -59,11 +59,7 @@ spec:
         apiKey:
           existingSecret: minecraft-secret
           secretKey: CF_API_KEY
-        slug: all-the-mods-10
-        excludeMods:
-          - sodium
-          - sodium-extra
-          - reeses-sodium-options
+        slug: ftb-oceanblock-2
       memory: 12000M
       difficulty: hard
       spawnProtection: 0
