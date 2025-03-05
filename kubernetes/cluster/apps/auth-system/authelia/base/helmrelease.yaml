@@ -38,8 +38,8 @@ spec:
               tag: 4.38.19
             resources:
               requests:
-                cpu: 1m
-                memory: 50Mi
+                cpu: 100m
+                memory: 100Mi
             probes:
               startup:
                 enabled: true
