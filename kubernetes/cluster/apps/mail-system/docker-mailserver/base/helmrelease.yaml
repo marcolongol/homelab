@@ -84,7 +84,7 @@ spec:
                 type: RuntimeDefault
             image:
               repository: ghcr.io/docker-mailserver/docker-mailserver
-              tag: 15.0.0
+              tag: 15.0.2
             env:
               ACCOUNT_PROVISIONER: LDAP
               DOVECOT_AUTH_BIND: yes
